@@ -13,18 +13,12 @@
     <!-- <link rel="stylesheet" id="wp-google-fonts-css"
         href="https://fonts.googleapis.com/css?family=Fira+Sans%3A300%2C400%2C600&amp;ver=5.3.2" type="text/css"
         media="all" /> -->
-
 </head>
-<style>
-    /* body { font-family: 'Michroma', sans-serif;} */
-</style>
 
 <body>
-
     <div class="back-button">
         <input type="button" value="BACK">
     </div>
-
     <div class="container">
         <header>
             <h1 class="main-heading">YouTube Guitar Lesson Finder</h1>
@@ -33,6 +27,25 @@
             <div class="search-container">
                 <input type="text" name="search-term" class="search-field" id="js-search-term" placeholder="Search" />
                 <input type="submit" class="submit-button" value="Go!" />
+
+
+                <div class="label-input-wrapper search-by-wrapper">
+                    <input type="radio" name="search-by" id="val1" class="vert-middle sort" value="artist" check/>
+                    <label for="val1" class="vert-middle">Artist</label>
+
+                </div>
+                <div class="label-input-wrapper search-by-wrapper">
+                    <input type="radio" name="search-by" id="val2" class="vert-middle sort" value="album" />
+                    <label for="val2" class="vert-middle">Album</label>
+
+                </div>
+                <div class="label-input-wrapper search-by-wrapper">
+                    <input type="radio" name="search-by" id="val3" class="vert-middle sort" value="track" />
+                    <label for="val3" class="vert-middle">Track</label>
+
+                </div>
+
+
             </div>
         </form>
         <!-- <p id="js-error-message" class="error-message"></p> -->
@@ -42,20 +55,20 @@
 
         <section id="results">
             <!-- <section class="results-heading-container"> -->
-                
+
             <!-- </section> -->
             <!-- <h2>Search results</h2> -->
             <section class="artists-page results-page" id="artists-page">
-         
+
             </section>
             <section class="albums-page results-page" id="albums-page">
-     
+
             </section>
             <section class="tracks-page results-page" id="tracks-page">
- 
+
             </section>
             <section class="videos-page results-page" id="videos-page">
-     
+
             </section>
         </section>
 
