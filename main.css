@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+  /* font-family: 'Michroma', sans-serif; */
+
+}
+
+body {
+  font-family: 'Michroma', sans-serif;
+  /* font-family: "Fira Sans", sans-serif; */
+  /* font-family: 'Roboto', sans-serif;} */
+}
+
+header {
+
+}
+
+#results {
+    font-family: 'Roboto', sans-serif;
+    /* display: block; */
+    font-size: 1.2rem;
+    /* margin: 100px 0; */
+}
+
+li {
+  list-style: none;
+}
+
+
+form {
+  /* max-width: 800px; */
+}
+
+.main-heading {
+  text-align-last: center;
+  margin: 0 0 40px 0;
+}
+
+
+.search-container {
+  /* height: 50px; */
+  text-align: center;
+  /* vertical-align: middle; */
+}
+
+
+.search-field {
+  height: 40px;
+
+  text-align: left;
+  vertical-align: middle;
+  /* padding: 0 0 0 7px; */
+  
+}
+
+.submit-button {
+  line-height: 34px;
+  font-size: 1.5rem;
+  border: 2px solid lightgray;
+  border-radius: 4px;
+  width: 70px;
+  vertical-align: middle;
+  /* float:right; */
+}
+
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+
+
+input[type="number"],input[type="text"] {
+  padding: 0 0 0 5px;
+  line-height: 43px;
+  font-size: 1.2rem;
+  border: 2px solid lightgray;
+  border-radius: 4px;
+  /* background-color: rgb(197, 197, 197); */
+  /* color:lightgray; */
+}
+
+
+
+
+#results-list li h3 {
+  margin:20px  0 5px 0;
+
+}
+
+#results-list li p {
+  margin:0px  0 5px 0;
+}
+
+
+
+
+
+
+.thumbnail-container {
+  
+  display:inline-block;
+}
+
+li.albums-item {
+  /* display:block; */
+  display: inline;
+}
+
+.album-info-wrapper {
+  display:inline-block;
+}
+
+.album-title-name {
+  /* display: inline; */
+  max-width: 250px;
+}
+
+.album-image {
+  height: 250px;
+  width: 250px;
+}
+
+
+
+
+
+
+
+/* .container {
+  margin: 0 auto;
+} */
+
+.error-message {
+    color: red;
+}
+
+.hidden {
+  display: none;
+}
