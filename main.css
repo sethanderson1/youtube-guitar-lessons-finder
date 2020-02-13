@@ -1,3 +1,8 @@
+
+
+
+
+
 * {
   box-sizing: border-box;
   /* font-family: 'Michroma', sans-serif; */
@@ -38,7 +43,7 @@ form {
 
 .search-container {
   /* height: 50px; */
-  /* text-align: center; */
+  text-align: center;
   /* vertical-align: middle; */
 }
 
@@ -136,3 +141,9 @@ li.albums-item {
 .hidden {
   display: none;
 }
+
+
+
+
+
+
