@@ -61,6 +61,9 @@ const STORE = {
   releasesQueryResponse: ``,
   tracksQueryResponse: "",
 
+  albumQueryResultsPerPage: 5,
+
+
   artistMBID: '',
 
   releaseGroupResponse: [],
@@ -78,6 +81,12 @@ const STORE = {
   artistNextPageNumber: null,
   artistPrevPageNumber: null,
 
+  albumQueryResultsPerPage: 5,
+  albumQueryCurrentPageNumber: 1,
+  albumQueryNextPageNumber: null,
+  albumQueryPrevPageNumber: null,
+
+
   albumsResultsPerPage: 5,
   albumsCurrentPageNumber: 1,
   albumsNextPageNumber: null,
@@ -93,6 +102,7 @@ const STORE = {
   videosNextPageNumber: null,
   videosPrevPageNumber: null,
 };
+
 function incrementHistory() {
   $('body').on('click', '.item', function (event) {
     current++;
@@ -123,7 +133,7 @@ function resetAll() {
   // to search after lists have been generated
 
 
-  $('.artists-page').addClass('hidden')
+  $('.search-entity-page').addClass('hidden')
   $('.albums-page').addClass('hidden')
   $('.tracks-page').addClass('hidden')
   $('.videos-page').addClass('hidden')
@@ -154,6 +164,11 @@ function resetAll() {
   STORE.artistCurrentPageNumber = 1
   STORE.artistNextPageNumber = null
   STORE.artistPrevPageNumber = null
+
+  STORE.albumQueryResultsPerPage = 5
+  STORE.albumQueryCurrentPageNumber = 1
+  STORE.albumQueryNextPageNumber = null
+  STORE.albumQueryPrevPageNumber = null
 
   STORE.albumsResultsPerPage = 5
   STORE.albumsCurrentPageNumber = 1
@@ -197,13 +212,30 @@ function makeOffsetAlbums(pageNum) {
   return (pageNum - 1) * STORE.albumsResultsPerPage
 }
 
-function getNextPageArtists() {
+function makeOffsetAlbumsQueryList(pageNum) {
+  return (pageNum - 1) * STORE.albumQueryResultsPerPage
+
+}
+
+function getNextPageArtistsQuery() {
   console.log('STORE.artistQueryResponse(): ', STORE.artistQueryResponse)
   const itemCount = !STORE.artistQueryResponse ? 0 : STORE.artistQueryResponse.count
   const pageCount = Math.ceil(itemCount / STORE.artistResultsPerPage)
   console.log('pageCount ', pageCount)
   if (STORE.artistCurrentPageNumber < pageCount) {
     return STORE.artistCurrentPageNumber + 1
+  }
+  return null
+}
+
+function getNextPageAlbumsQuery() {
+  console.log(`getNextPageAlbumsQuery() invoked`)
+  console.log('STORE.albumListQueryResponse(): ', STORE.albumListQueryResponse)
+  const itemCount = !STORE.albumListQueryResponse ? 0 : STORE.albumListQueryResponse.count
+  const pageCount = Math.ceil(itemCount / STORE.albumQueryResultsPerPage)
+  // console.log('pageCount ', pageCount)
+  if (STORE.albumQueryCurrentPageNumber < pageCount) {
+    return STORE.albumQueryCurrentPageNumber + 1
   }
   return null
 }
@@ -233,9 +265,9 @@ function formatQueryParams(params) {
 
 
 function displayArtistList() {
-  $(".artists-page").empty();
-  $('.artists-page').removeClass('hidden')
-    $('.artists-page').append(`
+  $(".search-entity-page").empty();
+  $('.search-entity-page').removeClass('hidden')
+    $('.search-entity-page').append(`
   <section class="artists-heading-container">
   <h4 class="artist-results-title">Artists:</h4>
   </section>`
@@ -243,7 +275,7 @@ function displayArtistList() {
   // console.log(STORE.artistQueryResponse.artists.length);
   const artists = STORE.artistQueryResponse.artists;
   console.log('displayArtistList() artists.length', artists.length)
-  $('.artists-page').append(`
+  $('.search-entity-page').append(`
                 <div class="artists">
                     <ul class="artists-list list"></ul>
                     <nav class="artists-list-nav" role="navigation"></nav>
@@ -271,6 +303,7 @@ function displayArtistList() {
     })
     $(".artists-list-nav").append($btn)
   }
+  
   if (STORE.artistNextPageNumber) {
     const nextBtn = `
         
@@ -287,6 +320,77 @@ function displayArtistList() {
     $(".artists-list-nav").append($next)
   }
   $("#results").removeClass("hidden");
+}
+
+function displayAlbumListFromQuery() {
+
+  console.log('displayAlbumListFromQuery() triggered')
+  $(".search-entity-page").empty();
+  $('.search-entity-page').removeClass('hidden')
+
+    $('.search-entity-page').append(`
+  <section class="album-matches-heading-container">
+  <h4 class="album-matches-results-title">Albums:</h4>
+  </section>`
+  )
+  console.log('displayAlbumListFromQuery() triggered2')
+
+  const albums = STORE.albumListQueryResponse[`release-groups`];
+  $('.search-entity-page').append(`
+                <div class="albums-search-list-container">
+                    <ul class="albums-search-list list"></ul>
+                    <nav class="albums-search-list-nav" role="navigation"></nav>
+                </div>`)
+  for (let i = 0; i < albums.length; i++) {
+    $(".albums-search-list").append(
+      `<li class="albums-search-item">
+      <p><span class="albums-search-name item" id=${albums[i].id}>${albums[i].title}</span></p>
+      </li>`
+    );
+  }
+
+  $(".albums-search-list-nav").empty()
+  console.log(`STORE.albumQueryPrevPageNumber`,STORE.albumQueryPrevPageNumber)
+  console.log(`STORE.albumQueryNextPageNumber`,STORE.albumQueryNextPageNumber)
+
+  if (STORE.albumQueryPrevPageNumber) {
+    const btn = `
+        <button class="albums-search-button">albums page ${STORE.albumQueryPrevPageNumber}</button>
+        
+        `
+    const $btn = $(btn)
+    $btn.click(ev => {
+      ev.preventDefault()
+      STORE.albumQueryCurrentPageNumber = STORE.albumQueryPrevPageNumber
+      // console.log('PREV PAGE',STORE.artistCurrentPageNumber)
+      getAlbumListFromQuery()
+    })
+    $(".albums-search-list-nav").append($btn)
+  }
+
+  if (STORE.albumQueryNextPageNumber) {
+    const nextBtn = `
+        
+        <button class="albums-search-button">albums page ${STORE.albumQueryNextPageNumber}</button>
+        
+        `
+        console.log(`STORE.albumQueryNextPageNumber exists`)
+
+    const $next = $(nextBtn)
+    $next.click(ev => {
+      ev.preventDefault()
+      STORE.albumQueryCurrentPageNumber = STORE.albumQueryNextPageNumber
+      console.log('NEXT PAGE')
+      getAlbumListFromQuery()
+    })
+    $(".albums-search-list-nav").append($next)
+  }
+  
+
+  console.log(`STORE.albumListQueryResponse.release-groups`,STORE.albumListQueryResponse[`release-groups`]);
+
+  $("#results").removeClass("hidden");
+
 }
 
 function displayReleaseGroupsList() {
@@ -467,7 +571,7 @@ function getArtistListFromQuery() {
     .then(responseJson => {
       console.log('getArtistListFromQuery() response:', responseJson);
       STORE.artistQueryResponse = responseJson;
-      const nextPage = getNextPageArtists()
+      const nextPage = getNextPageArtistsQuery()
       console.log('next page:', nextPage)
       STORE.artistNextPageNumber = null
       if (nextPage) {
@@ -483,6 +587,40 @@ function getArtistListFromQuery() {
       $("#js-error-message").text(`Something went wrong: ${err.message}`);
     });
 }
+
+function getAlbumListFromQuery() {
+  const album = STORE.albumQuery
+  let offset = makeOffsetAlbumsQueryList(STORE.albumQueryCurrentPageNumber)
+  console.log(`offset`,offset)
+  let url = `https://musicbrainz.org/ws/2/release-group/?query=release-group:${album}&fmt=json&offset=${offset}&limit=${STORE.albumQueryResultsPerPage}`;
+  console.log("query Album url ", url);
+  fetch(url)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
+    .then(responseJson => {
+      console.log('getAlbumListFromQuery() response:', responseJson);
+      STORE.albumListQueryResponse = responseJson;
+      const nextPage = getNextPageAlbumsQuery()
+      console.log('next page:', nextPage)
+      STORE.albumQueryNextPageNumber = null
+      if (nextPage) {
+        STORE.albumQueryNextPageNumber = nextPage
+      }
+      STORE.albumQueryPrevPageNumber = null
+      if (STORE.albumQueryCurrentPageNumber > 1) {
+        STORE.albumQueryPrevPageNumber = STORE.albumQueryCurrentPageNumber - 1
+      }
+      displayAlbumListFromQuery();
+    })
+    .catch(err => {
+      $("#js-error-message").text(`Something went wrong: ${err.message}`);
+    });
+}
+
 
 function getReleaseGroupsFromArtistID(artistMBID) {
   let pagesCount = 1; // just a placeholder value
@@ -653,29 +791,69 @@ function handleSearchForm() {
   $("form").submit(event => {
     event.preventDefault();
     resetAll()
-    const artist = $('#js-search-term').val();
-    console.log('artist query:', artist)
-    STORE.artistQuery = encodeURIComponent(artist)
-    getArtistListFromQuery();
+
+    const searchByEntity = $('input:checked').val()
+    STORE.searchByEntity = searchByEntity;
+    console.log('entity checked:',$('input:checked').val())
+
+    if (searchByEntity === 'album') {
+      const album = $('#js-search-term').val();
+      console.log('album query:', album)
+      STORE.albumQuery = encodeURIComponent(album)
+      getAlbumListFromQuery()
+    } else if (searchByEntity === 'track') {
+      const track = $('#js-search-term').val();
+      console.log('track query:', track)
+      STORE.trackQuery = encodeURIComponent(track)
+    } else {
+      const artist = $('#js-search-term').val();
+      console.log('artist query:', artist)
+      STORE.artistQuery = encodeURIComponent(artist)
+      getArtistListFromQuery();
+    }
+
+
     // console.log(encodeURIComponent(artist))
   });
 }
 
-function handleSelectArtist() {
-  $('.artists-page').on('click', '.artist-name', function (event) {
+function handleSelectEntity() {
+  $('.search-entity-page').on('click', '.artist-name', function (event) {
     event.preventDefault();
-    $('.artists-page').addClass('hidden')
+    $('.search-entity-page').addClass('hidden')
     // grab the element that was clicked
     console.log('event target: clicked', $(event.target).text())
     // console.log('event target: clicked', $(event.target).attr('id'))
+
+    console.log($(event.target).text())
+
     STORE.artistID = $(event.target).attr('id');
     getReleaseGroupsFromArtistID($(event.target).attr('id'));
     console.log('selected Artist ', $(event.target).text())
     STORE.selectedArtist = $(event.target).text();
     resetReleaseGroupsData()
   })
+  $('.search-entity-page').on('click', '.albums-search-name', function (event) {
+    event.preventDefault();
+    $('.search-entity-page').addClass('hidden')
+    // grab the element that was clicked
+    console.log('event target: clicked', $(event.target).text())
+    // console.log('event target: clicked', $(event.target).attr('id'))
+
+    console.log($(event.target).text())
+
+    STORE.albumID = $(event.target).attr('id');
+    console.log('selected Artist ', $(event.target).text())
+    STORE.selectedAlbumID =$(event.target).attr('id')
+    getReleasesFromReleaseGroupID($(event.target).attr('id'));
+
+    // resetReleaseGroupsData()
+  })
+  
   // gets release groups (basically release group is an album)
 }
+
+
 
 function handleSelectReleaseGroup() {
   $('.albums-page').on('click', '.album-name', function (event) {
@@ -706,7 +884,7 @@ function watchForm() {
   backButton()
   incrementHistory()
   handleSearchForm();
-  handleSelectArtist();
+  handleSelectEntity();
   handleSelectReleaseGroup();
   handleSelectTrack();
 }
