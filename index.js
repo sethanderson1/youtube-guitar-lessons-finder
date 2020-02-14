@@ -540,7 +540,9 @@ function displayTracksList() {
   $('.tracks-page').append(`
   <section class="tracks-heading-container">
   <h4 class="tracks-results-title">${STORE.selectedAlbumTitle}</h4>
-  <img  src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
+  <div class="album-cover-container"> 
+  <img id="album-cover-tracks-page" src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
+  </div>
   </section>`
   )
 
@@ -586,9 +588,11 @@ function displayVideoResults(responseJson) {
       <p>${responseJson.items[i].snippet.description}</p>
       <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"  target="_blank">
       <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' >
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" allowfullscreen></iframe>
       </a>
       </li>`
     );
+    console.log('responseJson.items[i].id.videoId',responseJson.items[i].id.videoId)
   }
   //display the results section
   $("#results").removeClass("hidden");
@@ -681,21 +685,31 @@ function getReleaseGroupsFromArtistID(artistMBID) {
 
   // include Live in secondary types and maybe soundtracks and 
   // other things. 
-
+  let test = []
+  let filterConditions = []
   function filteredReleaseGroupResponse(array) {
     const filteredArr = [];
     for (let i = 0; i < array.length; i++) {
-      if (array[i][`first-release-date`].length > 0
-        && array[i][`secondary-types`].length == 0
-        && array[i][`primary-type`] != `Single`
-        && array[i][`primary-type`] != `EP`
-        && array[i][`primary-type`] != `Compilation`
-        && array[i][`primary-type`] != `Remix`
-        && array[i][`primary-type`] != `Interview`
-        && array[i][`primary-type`] != `Audiobook`
-        && array[i][`primary-type`] != `Other`
-        // || array[i][`primary-type`] == `Soundtrack`
-      ) {
+      if (array[i].id === `8d5f4b07-7e2e-4ffa-ac90-e4772c4d8525`) {
+        test.push(array[i])
+        
+        console.log('test',array[i])
+      }
+      filterConditions = [
+        array[i][`first-release-date`].length > 0,
+        array[i][`secondary-types`].length == 0,
+                // array[i][`secondary-types`][0] == 'Compilation',
+
+        array[i][`primary-type`] != `Single`,
+        array[i][`primary-type`] != `EP`,
+        array[i][`primary-type`] != `Compilation`,
+        array[i][`primary-type`] != `Remix`,
+        array[i][`primary-type`] != `Interview`,
+        array[i][`primary-type`] != `Audiobook`,
+        array[i][`primary-type`] != `Other`,
+      ]
+
+      if (filterConditions.every(a => a === true) ) {
         filteredArr.push(array[i])
       }
     }
