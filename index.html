@@ -21,22 +21,21 @@
         media="all" /> -->
 
 </head>
-<style>
-    /* body { font-family: 'Michroma', sans-serif;} */
-</style>
+
 
 <body>
-    <div class="back-button">
-        <input type="button" value="BACK">
-    </div>
+    
 
     <div class="container">
         <header>
+            <div class="back-button" hidden>
+                <input type="button" value="BACK">
+            </div>
             <h1 class="main-heading">YouTube Guitar Lesson Finder</h1>
         </header>
         <form id="js-form" role="form">
             <div class="search-container">
-                <input type="text" name="search-term" class="search-field" id="js-search-term" placeholder="Search" />
+                <input type="text" name="search-term" class="search-field" id="js-search-term" placeholder="Enter an artist name" autofocus/>
                 <input type="submit" class="submit-button" value="Go!" />
             </div>
         </form>
@@ -46,10 +45,7 @@
 
 
         <section id="results">
-            <!-- <section class="results-heading-container"> -->
-                
-            <!-- </section> -->
-            <!-- <h2>Search results</h2> -->
+
             <section class="artists-page results-page" id="artists-page">
          
             </section>

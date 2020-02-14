@@ -1,8 +1,3 @@
-
-
-
-
-
 // ** to fix: 
 // 1.)  make it so that can only click on a list item, 
 // not the whole wide block of the item
@@ -42,6 +37,9 @@
 
 // make max results button
 
+// ** fix: if you play embedded youtube video
+// and then go back, the video will still be 
+// playing until you go back to videos page
 // 
 
 
@@ -111,6 +109,11 @@ function incrementHistory() {
     // }
     console.log(`history`, history)
 
+    if (history.length == 0) {
+      $('.back-button').hide()
+    } else {
+      $('.back-button').show()
+    }
   })
 }
 
@@ -124,13 +127,17 @@ function backButton() {
     // hide current page
     $('body').find($('.results-page').not('hidden').addClass('hidden'))
     $('body').find($('#' + prevPage)).removeClass('hidden')
-    // $('body').find($('.artists-page')).removeClass('hidden')
-    // $('body').find($('.artists-page results-page hidden')).removeClass('hidden')
-    // display previous page
+
 
     history.pop()
     // current--
     current == 0 ? 0 : current -= 1
+ 
+    if (history.length == 0) {
+      $('.back-button').hide()
+    } else {
+      $('.back-button').show()
+    }
   })
 }
 
@@ -228,8 +235,6 @@ function getNextPageArtists() {
 
 function getNextPageAlbums() {
   console.log('getNextPageAlbums() triggered')
-  // console.log('STORE.releaseGroupsQueryResponse ', STORE.releaseGroupsQueryResponse)
-  // const itemCount = !STORE.releaseGroupsQueryResponse ? 0 : STORE.releaseGroupsQueryResponse.count
   const itemCount = STORE.releaseGroupResponseReleaseGroupFiltered.length
   console.log(`STORE.releaseGroupResponseReleaseGroupFiltered.length`, STORE.releaseGroupResponseReleaseGroupFiltered.length)
   // console.log(`STORE.releaseGroupsResultsPerPage`, STORE.releaseGroupsResultsPerPage)
@@ -253,47 +258,13 @@ function formatQueryParams(params) {
 ///     DISPLAYERS      //////////////
 
 
-function displayResultsHeading(resultsHeadingTitle, type, resultsHeadingImageURL) {
-
-  console.log('displayResultsHeading invoked')
-  // $('.results-heading-container').empty();
-  // $('.results-heading-container').removeClass('hidden');
-  // $('.results-heading-container').append(
-  //   `<h4 class="results-title">${resultsHeadingTitle}</h4>`
-  // )
-  // if (type == `tracks`) {
-  //   $('.results-heading-container').append(
-  //     `<img src=${resultsHeadingImageURL}>`)
-  // }
-}
-
 
 function displayArtistList() {
-  // $(".artists-list").empty();
-  // $('.artists-list').removeClass('hidden')
-  // displayResultsHeading('Artists:', 'artist')
-
-  // $('.artists-heading-container').empty();
-  // $('.artists-heading-container').removeClass('hidden');
-  // $('.artists-page').append(`
-  // <section class="artists-heading-container">
-  // <h4 class="results-title">Artists:</h4>
-  // </section>`
-  // )
-  // if (type == `tracks`) {
-  //   $('.results-heading-container').append(
-  //     `<img src=${resultsHeadingImageURL}>`)
-  // }
-
-
 
 
   $(".artists-page").empty();
   $('.artists-page').removeClass('hidden')
 
-  // $('.artists-page').append(`
-  // <h4 class="results-title">Artists:</h4>`
-  // )
 
     $('.artists-page').append(`
   <section class="artists-heading-container">
@@ -313,7 +284,7 @@ function displayArtistList() {
     // console.log(artists[i].name);
     $(".artists-list").append(
       `<li class="artist-item">
-      <p><span class="artist-name item" id=${artists[i].id}>${artists[i].name}</span></p>
+      <p><span class="artist-name pointer item" id=${artists[i].id}>${artists[i].name}</span></p>
       </li>`
     );
   }
@@ -354,7 +325,7 @@ function displayArtistList() {
 
 function displayReleaseGroupsList() {
   console.log(`displayReleaseGroupsList() triggered`)
-  displayResultsHeading('Albums:', 'album')
+  // displayResultsHeading('Albums:', 'album')
 
   // $(".albums-list").empty();
   // $('.albums-list').removeClass('hidden')
@@ -393,21 +364,16 @@ function displayReleaseGroupsList() {
     // console.log(i + ' ' + albums[i].title);
     console.log('i', i)
     $(".albums-list").append(
-      // `<li class="albums-item">
-      // <p><span class="album-name item" id=${albums[i].id}>${albums[i].title}</span></p>
-      // <div class="thumbnail-container">
-      //   <img class="album-name" id=${albums[i].id} src="http://coverartarchive.org/release-group/${albums[i].id}/front-${thumbnailSize}"></img>
-      // </div>
-      // </li>`
+
       `<li class="albums-item">
       <div class="album-info-wrapper">
-      <p class="album-title-name"><span class="album-name album-name-span item"
+      <p class="album-title-name pointer"><span class="album-name album-name-span pointer item"
       id=${albums[i].id}>${albums[i].title}</span></p>
-      <p class="album-date"><span class="album-name item"
+      <p class="album-date pointer"><span class="album-name item"
       id=${albums[i].id}>${albums[i][`first-release-date`].slice(0, 4)}</span></p>
 
               <div class="thumbnail-container">
-                  <img class="album-name item album-image" id=${albums[i].id}
+                  <img class="album-name pointer item album-image" id=${albums[i].id}
                       src="http://coverartarchive.org/release-group/${albums[i].id}/front-${thumbnailSize}"></img>
               </div>
       </div>
@@ -472,56 +438,6 @@ function displayReleaseGroupsList() {
     $(".albums-list-nav").append($next)
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // if (STORE.albumsPrevPageNumber) {
-  //   const btn = `
-  //       <button class="albums-button">albums page ${STORE.albumsPrevPageNumber}</button>
-
-  //       `
-  //   const $btn = $(btn)
-  //   $btn.click(ev => {
-  //     ev.preventDefault()
-  //     STORE.albumsCurrentPageNumber = STORE.albumsPrevPageNumber
-  //     console.log('PREV PAGE')
-  //     // getArtistListFromQuery()
-  //     getReleaseGroupsFromartistMBID(artistMBID);
-  //     //refetch
-  //   })
-  //   $(".albums-list-nav").append($btn)
-  // }
-  // if (STORE.albumsNextPageNumber) {
-  //   const nextBtn = `
-
-  //       <button class="albums-button">artist page ${STORE.albumsNextPageNumber}</button>
-
-  //       `
-  //   const $next = $(nextBtn)
-  //   $next.click(ev => {
-  //     ev.preventDefault()
-  //     STORE.albumsCurrentPageNumber = STORE.albumsNextPageNumber
-  //     console.log('NEXT PAGE')
-  //     // getArtistListFromQuery()
-  //     getReleaseGroupsFromartistMBID(artistMBID)
-  //     //refetch
-  //   })
-  //   $(".albums-list-nav").append($next)
-  // }
   $("#results").removeClass("hidden");
 
 
@@ -561,7 +477,7 @@ function displayTracksList() {
     console.log(i + ' ' + tracks[0].tracks[i].title);
     $(".tracks-list").append(
       `<li class="tracks-item">
-        <p><span class="track-name item">${tracks[0].tracks[i].title}</span></p>
+      <p><span class="track-name pointer item">${tracks[0].tracks[i].title}</span></p>
         </li>`
     );
   }
@@ -581,22 +497,28 @@ function displayVideoResults(responseJson) {
   <div class="videos">
   <ul class="videos-list list"></ul>
   <nav class="videos-list-nav" role="navigation"></nav>
-</div>`)
+</div>`)  
   for (let i = 0; i < responseJson.items.length; i++) {
     $(".videos-list").append(
-      `<li><h3>${responseJson.items[i].snippet.title}</h3>
-      <p>${responseJson.items[i].snippet.description}</p>
+      `<li>
+      <div class="video-title-summary-box">
       <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"  target="_blank">
-      <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' >
+      <h3>${responseJson.items[i].snippet.title}</h3>
+      </a>
+
+      <p>${responseJson.items[i].snippet.description}</p>
+      </div>
       <div class="embedded-video-container">
       <iframe  class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" allowfullscreen></iframe>
 
       </div>
-      </a>
+      
       </li>`
     );
     console.log('responseJson.items[i].id.videoId',responseJson.items[i].id.videoId)
   }
+
+  // <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' >
   //display the results section
   $("#results").removeClass("hidden");
 }
@@ -836,6 +758,9 @@ function handleSearchForm() {
   $("form").submit(event => {
     event.preventDefault();
     resetAll()
+    // $('.back-button').removeClass('hidden')
+    $('.back-button').show()
+
     // $('.artists-page').removeClass('hidden')
     // $('.artists-list-nav').removeClass('hidden')
     const artist = $('#js-search-term').val();
@@ -860,9 +785,6 @@ function handleSelectArtist() {
     getReleaseGroupsFromArtistID($(event.target).attr('id'));
     console.log('selected Artist ', $(event.target).text())
     STORE.selectedArtist = $(event.target).text();
-    // $('.artists-list').addClass('hidden')
-    // $('.artists-list-nav').addClass('hidden')
-    // $('.albums-list-nav').removeClass('hidden')
 
     resetReleaseGroupsData()
 
@@ -883,10 +805,7 @@ function handleSelectReleaseGroup() {
     )
     STORE.selectedAlbumTitle =  $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
 
-    // $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')))
-    // $('.album-info-wrapper').find($('.album-title-name').)
-    // )
-    // STORE.albumSelectedTitle = 
+
     STORE.selectedAlbumID = $(event.target).attr('id')
     getReleasesFromReleaseGroupID($(event.target).attr('id'));
     // $('.albums-list').addClass('hidden')
@@ -909,10 +828,6 @@ function handleSelectTrack() {
     console.log('handleSelectTrack() done')
   })
 }
-
-
-
-
 
 
 function watchForm() {
