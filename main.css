@@ -13,6 +13,8 @@ body {
   font-family: 'Michroma', sans-serif;
   background-color: #151515;
   color: rgb(139, 127, 100);
+  padding: 0;
+  margin: 0;
   /* font-family: "Fira Sans", sans-serif; */
   /* font-family: 'Roboto', sans-serif;} */
 }
@@ -139,6 +141,28 @@ li.albums-item {
 
 .videos-list {
   padding:0;
+}
+
+.embedded-video-container {
+  object-fit: contain;  
+}
+
+.embedded-video {
+  width: 100%;
+}
+
+.embedded-video-container {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.embedded-video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 

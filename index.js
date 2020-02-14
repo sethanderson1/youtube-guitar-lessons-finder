@@ -588,7 +588,10 @@ function displayVideoResults(responseJson) {
       <p>${responseJson.items[i].snippet.description}</p>
       <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"  target="_blank">
       <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' >
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" allowfullscreen></iframe>
+      <div class="embedded-video-container">
+      <iframe  class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" allowfullscreen></iframe>
+
+      </div>
       </a>
       </li>`
     );
