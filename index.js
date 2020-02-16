@@ -56,6 +56,7 @@ const limit = 100
 // const apiKey = 'AIzaSyCsxk-3l3HMjN4zZFQoOHpMj65lyEA8NW0'; //mine
 // const apiKey = "AIzaSyB3hw6YJqtiQRs1X5pNsmqWisgoifViVKE";
 const apiKey = "AIzaSyDXpwzqSs41Kp9IZj49efV3CSrVxUDAwS0";
+// const apiKey = "AIzaSyBkK8PEuhSfyz05gnUWhwOuE5cqWV5Oa3A";
 const searchURL = "https://www.googleapis.com/youtube/v3/search";
 
 // const artistMBID = `b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d`
@@ -132,7 +133,7 @@ function backButton() {
     history.pop()
     // current--
     current == 0 ? 0 : current -= 1
- 
+
     if (history.length == 0) {
       $('.back-button').hide()
     } else {
@@ -266,12 +267,12 @@ function displayArtistList() {
   $('.artists-page').removeClass('hidden')
 
 
-    $('.artists-page').append(`
+  $('.artists-page').append(`
   <section class="artists-heading-container">
   <h4 class="artist-results-title">Artists:</h4>
   </section>`
   )
-  
+
   // console.log(STORE.artistQueryResponse.artists.length);
   const artists = STORE.artistQueryResponse.artists;
   console.log('displayArtistList() artists.length', artists.length)
@@ -495,18 +496,23 @@ function displayVideoResults(responseJson) {
   console.log('from displayVideoResults() ', responseJson.items.length);
   $('.videos-page').append(`
   <div class="videos">
-  <ul class="videos-list list"></ul>
+  <ul class="videos-list list grid-container"></ul>
   <nav class="videos-list-nav" role="navigation"></nav>
-</div>`)  
+</div>`)
   for (let i = 0; i < responseJson.items.length; i++) {
+
+
+    // localStorage.setItem(`https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`, `https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`)
+    console.log('responseJson.items[i].id.videoId', responseJson.items[i].id.videoId)
+    // console.log('responseJson.items[i].id.videoId', responseJson.items[i].id.videoId)
+
     $(".videos-list").append(
-      `<li>
+      `<li class="grid-item">
       <div class="video-title-summary-box">
       <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"  target="_blank">
-      <h3>${responseJson.items[i].snippet.title}</h3>
+      <h3 class="clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
       </a>
 
-      <p>${responseJson.items[i].snippet.description}</p>
       </div>
       <div class="embedded-video-container">
       <iframe  class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" allowfullscreen></iframe>
@@ -515,8 +521,10 @@ function displayVideoResults(responseJson) {
       
       </li>`
     );
-    console.log('responseJson.items[i].id.videoId',responseJson.items[i].id.videoId)
   }
+
+  // <p class="clampedText clampedLines2">${responseJson.items[i].snippet.description}</p>
+
 
   // <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' >
   //display the results section
@@ -576,6 +584,7 @@ function getReleaseGroupsFromArtistID(artistMBID) {
   for (let i = 0; i < pagesCount; i++) {
     const offset = limit * i;
     const url = `https://musicbrainz.org/ws/2/release-group?artist=${artistMBID}&offset=${offset}&limit=${limit}&fmt=json`
+    // const savedURL = `https://musicbrainz.org/ws/2/release-group?artist=${artistMBID}&offset=${offset}&limit=${limit}&fmt=json`
     console.log(`getReleaseGroupsFromArtistID() url`, url)
     fetches.push(
       fetch(url)
@@ -617,13 +626,13 @@ function getReleaseGroupsFromArtistID(artistMBID) {
     for (let i = 0; i < array.length; i++) {
       if (array[i].id === `8d5f4b07-7e2e-4ffa-ac90-e4772c4d8525`) {
         test.push(array[i])
-        
-        console.log('test',array[i])
+
+        console.log('test', array[i])
       }
       filterConditions = [
         array[i][`first-release-date`].length > 0,
         array[i][`secondary-types`].length == 0,
-                // array[i][`secondary-types`][0] == 'Compilation',
+        // array[i][`secondary-types`][0] == 'Compilation',
 
         array[i][`primary-type`] != `Single`,
         array[i][`primary-type`] != `EP`,
@@ -634,7 +643,7 @@ function getReleaseGroupsFromArtistID(artistMBID) {
         array[i][`primary-type`] != `Other`,
       ]
 
-      if (filterConditions.every(a => a === true) ) {
+      if (filterConditions.every(a => a === true)) {
         filteredArr.push(array[i])
       }
     }
@@ -705,6 +714,32 @@ function getReleasesFromReleaseGroupID(releaseGroupID) {
     });
 }
 
+
+
+function getTracksFromReleaseID(releaseID) {
+
+  const url = `${baseURL}release/${releaseID}?inc=recordings&fmt=json`
+  console.log("query tracks url ", url);
+  fetch(url)
+    .then(response => {
+      if (response.ok) {
+        console.log(response);
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
+    .then(responseJson => {
+      console.log(responseJson);
+      STORE.tracksQueryResponse = responseJson;
+      displayTracksList();
+    })
+    .catch(err => {
+      $("#js-error-message").text(`Something went wrong: ${err.message}`);
+    });
+}
+
+
+
 function getYouTubeVideos(trackTitle) {
   const params = {
     key: apiKey,
@@ -724,28 +759,9 @@ function getYouTubeVideos(trackTitle) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayVideoResults(responseJson))
-    .catch(err => {
-      $("#js-error-message").text(`Something went wrong: ${err.message}`);
-    });
-}
-
-function getTracksFromReleaseID(releaseID) {
-
-  const url = `${baseURL}release/${releaseID}?inc=recordings&fmt=json`
-  console.log("query tracks url ", url);
-  fetch(url)
-    .then(response => {
-      if (response.ok) {
-        console.log(response);
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
     .then(responseJson => {
-      console.log(responseJson);
-      STORE.tracksQueryResponse = responseJson;
-      displayTracksList();
+      console.log('youtube videos response', responseJson)
+      displayVideoResults(responseJson)
     })
     .catch(err => {
       $("#js-error-message").text(`Something went wrong: ${err.message}`);
@@ -803,7 +819,7 @@ function handleSelectReleaseGroup() {
 
       $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
     )
-    STORE.selectedAlbumTitle =  $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
+    STORE.selectedAlbumTitle = $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
 
 
     STORE.selectedAlbumID = $(event.target).attr('id')
