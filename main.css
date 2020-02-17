@@ -49,17 +49,75 @@ header {
 /* text-align: center; */
 }
 
+.main-heading {
+  font-size: 1.4rem;
+  /* text-align-last: center; */
+  margin: 0 auto 40px; /* remove margin for large screens */
+  padding: 10px 0 0 0;
+  width:300px;  
+  text-align: center;
+}
+
 .back-button {
   position: absolute;
   border:1px yellow;
   font-size: 4rem;
   top: -10px;
-    left: 10px;
+  left: 10px;
 }
 
 .back-text {
   font-size: 2rem;
 }
+
+#js-form {
+  width:85%;
+  margin: 0 auto;  
+}
+
+.search-container {
+  display:flex;
+  max-width: 500px;
+  margin:0 auto;
+}
+
+.search-field {
+  flex-grow: 2;
+  flex-shrink: 1;
+  flex-basis: 100px;
+  height: 40px;
+  text-align: left;
+  vertical-align: middle;  
+}
+
+.submit-button {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 70px;
+  line-height: 34px;
+  font-size: 1.5rem;
+  border: 2px solid lightgray;
+  border-radius: 4px;
+  width: 70px;
+  vertical-align: middle;
+}
+
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+
+
+input[type="number"],input[type="text"] {
+  /* padding: 0 0 0 5px;
+  line-height: 43px;
+  font-size: 1.2rem;
+  border: 2px solid lightgray;
+  border-radius: 4px; */
+  /* background-color: rgb(197, 197, 197); */
+  /* color:lightgray; */
+}
+
 
 
 
@@ -79,73 +137,6 @@ form {
   /* max-width: 800px; */
 }
 
-.main-heading {
-  font-size: 1.4rem;
-  /* text-align-last: center; */
-  margin: 0 auto 40px; /* remove margin for large screens */
-  padding: 10px 0 0 0;
-  width:300px;  
-  text-align: center;
-
-}
-
-
-.search-container {
-
-  display:flex;
-  max-width: 500px;
-  margin:0 auto;
-  padding:0 20px;
-
-  /* justify-content: center; */
-
-}
-
-
-.search-field {
-
-  flex-grow: 2;
-  flex-shrink: 1;
-  flex-basis: 250px;
-
-  height: 40px;
-
-  text-align: left;
-  vertical-align: middle;
-  /* padding: 0 0 0 7px; */
-  
-}
-
-.submit-button {
-
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: 70px;
-
-  line-height: 34px;
-  font-size: 1.5rem;
-  border: 2px solid lightgray;
-  border-radius: 4px;
-  width: 70px;
-  vertical-align: middle;
-  /* float:right; */
-}
-
-input[type="submit"]:hover {
-  cursor: pointer;
-}
-
-
-
-input[type="number"],input[type="text"] {
-  padding: 0 0 0 5px;
-  line-height: 43px;
-  font-size: 1.2rem;
-  border: 2px solid lightgray;
-  border-radius: 4px;
-  /* background-color: rgb(197, 197, 197); */
-  /* color:lightgray; */
-}
 
 
 
