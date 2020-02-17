@@ -1,5 +1,17 @@
 
 /* put magnifying glass icon for search button */
+/* make heading not overlap back button  */
+/* padding on left right for tracks page   */
+/* search button should be on right even when in mobile  */
+/* fix prev next buttons location and style  */
+/* center albums on album page */
+/* figure out a color for links  */
+/* links change color upon hover  */
+/* have album pic container exist at a certain size
+since there will be a delay when album art loads */
+/* maybe have a home button on the top left for mobile? */
+/* when do next albums page it starts at bottom of page but it should go back to top. */
+
 
 
 
@@ -31,13 +43,25 @@ body {
   /* font-family: 'Roboto', sans-serif;} */
 }
 
-.back-button {
-  position: absolute;;
+header {
+  /* font-size: 0.8rem */
+  /* padding: 10px 0 0 0; */
+/* text-align: center; */
 }
 
-header {
-  font-size: 0.7rem;
+.back-button {
+  position: absolute;
+  border:1px yellow;
+  font-size: 4rem;
+  top: -10px;
+    left: 10px;
 }
+
+.back-text {
+  font-size: 2rem;
+}
+
+
 
 #results {
     font-family: 'Roboto', sans-serif;
@@ -56,19 +80,34 @@ form {
 }
 
 .main-heading {
-  text-align-last: center;
-  margin: 0 0 40px 0;
+  font-size: 1.4rem;
+  /* text-align-last: center; */
+  margin: 0 auto 40px; /* remove margin for large screens */
+  padding: 10px 0 0 0;
+  width:300px;  
+  text-align: center;
+
 }
 
 
 .search-container {
-  /* height: 50px; */
-  text-align: center;
-  /* vertical-align: middle; */
+
+  display:flex;
+  max-width: 500px;
+  margin:0 auto;
+  padding:0 20px;
+
+  /* justify-content: center; */
+
 }
 
 
 .search-field {
+
+  flex-grow: 2;
+  flex-shrink: 1;
+  flex-basis: 250px;
+
   height: 40px;
 
   text-align: left;
@@ -78,6 +117,11 @@ form {
 }
 
 .submit-button {
+
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 70px;
+
   line-height: 34px;
   font-size: 1.5rem;
   border: 2px solid lightgray;

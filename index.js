@@ -111,15 +111,15 @@ function incrementHistory() {
     console.log(`history`, history)
 
     if (history.length == 0) {
-      $('.back-button').hide()
+      $('.js-back-button-container').hide()
     } else {
-      $('.back-button').show()
+      $('.js-back-button-container').show()
     }
   })
 }
 
 function backButton() {
-  $('.back-button').on('click', function (event) {
+  $('.js-back-button-container').on('click', function (event) {
     const prev = current - 1
     console.log('backButton() clicked')
     console.log(`current`, current)
@@ -135,9 +135,9 @@ function backButton() {
     current == 0 ? 0 : current -= 1
 
     if (history.length == 0) {
-      $('.back-button').hide()
+      $('.js-back-button-container').hide()
     } else {
-      $('.back-button').show()
+      $('.js-back-button-container').show()
     }
   })
 }
@@ -774,8 +774,8 @@ function handleSearchForm() {
   $("form").submit(event => {
     event.preventDefault();
     resetAll()
-    // $('.back-button').removeClass('hidden')
-    $('.back-button').show()
+    // $('.js-back-button-container').removeClass('hidden')
+    $('.js-back-button-container').show()
 
     // $('.artists-page').removeClass('hidden')
     // $('.artists-list-nav').removeClass('hidden')
