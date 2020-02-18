@@ -196,6 +196,8 @@ function resetAll() {
   STORE.videosNextPageNumber = null
   STORE.videosPrevPageNumber = null
 
+  STORE.nextPageToken = [null];
+
 
 }
 
@@ -269,7 +271,7 @@ function displayArtistList() {
 
   $('.artists-page').append(`
   <section class="artists-heading-container">
-  <h4 class="artist-results-title">Artists:</h4>
+  <h4 class="artist-results-title">Artist</h4>
   </section>`
   )
 
@@ -279,20 +281,35 @@ function displayArtistList() {
   $('.artists-page').append(`
                 <div class="artists">
                     <ul class="artists-list list"></ul>
-                    <nav class="artists-list-nav" role="navigation"></nav>
+                    <div class="artists-list-nav-wrapper">
+                       <nav class="artists-list-nav" role="navigation"></nav>
+                    </div>
                 </div>`)
   for (let i = 0; i < artists.length; i++) {
     // console.log(artists[i].name);
     $(".artists-list").append(
       `<li class="artist-item">
-      <p><span class="artist-name pointer item" id=${artists[i].id}>${artists[i].name}</span></p>
+      <p><span class="artist-name hover-link pointer item" id=${artists[i].id}>${artists[i].name}</span></p>
       </li>`
     );
   }
   $(".artists-list-nav").empty()
+
+  if (STORE.artistCurrentPageNumber ==1) {
+
+    const btn = `
+        <button class="prev-artist-button hover-link">< prev</button>
+        
+        `
+    const $btn = $(btn)
+
+    $(".artists-list-nav").append($btn)
+
+  }
+
   if (STORE.artistPrevPageNumber) {
     const btn = `
-        <button class="artist-button">artist page ${STORE.artistPrevPageNumber}</button>
+        <button class="prev-artist-button hover-link">< prev</button>
         
         `
     const $btn = $(btn)
@@ -301,14 +318,33 @@ function displayArtistList() {
       STORE.artistCurrentPageNumber = STORE.artistPrevPageNumber
       // console.log('PREV PAGE',STORE.artistCurrentPageNumber)
       getArtistListFromQuery()
-      //refetch
     })
+
+    
     $(".artists-list-nav").append($btn)
   }
-  if (STORE.artistNextPageNumber) {
+
+  if (STORE.artistNextPageNumber == null) {
     const nextBtn = `
+        <span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>
+        <button class="next-artist-button hover-link">next ></button>
         
-        <button class="artist-button">artist page ${STORE.artistNextPageNumber}</button>
+        `
+    const $next = $(nextBtn)
+    $next.click(ev => {
+      ev.preventDefault()
+
+    })
+    $(".artists-list-nav").append($next)
+
+  }
+
+
+  if (STORE.artistNextPageNumber) {
+    
+    const nextBtn = `
+        <span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>
+        <button class="next-artist-button hover-link">next ></button>
         
         `
     const $next = $(nextBtn)
@@ -322,6 +358,9 @@ function displayArtistList() {
     $(".artists-list-nav").append($next)
   }
   $("#results").removeClass("hidden");
+
+
+
 }
 
 function displayReleaseGroupsList() {
@@ -422,6 +461,7 @@ function displayReleaseGroupsList() {
   }
   if (STORE.albumsNextPageNumber) {
     const nextBtn = `
+
         <button class="albums-button">albums page ${STORE.albumsNextPageNumber}</button>
         
         `
@@ -738,7 +778,7 @@ function getTracksFromReleaseID(releaseID) {
     });
 }
 
-
+const cache = {}
 
 function getYouTubeVideos(trackTitle) {
   const params = {
@@ -748,10 +788,21 @@ function getYouTubeVideos(trackTitle) {
     maxResults: '10',
     type: "video",
     order: 'relevance',
+    nextPageToken: STORE.nextPageToken[STORE.videosCurrentPageNumber-1],
   };
+  console.log('videos current page number:',STORE.videosCurrentPageNumber)
+  console.log('STORE.nextPageToken:',STORE.nextPageToken)
   const queryString = formatQueryParams(params);
   const url = searchURL + "?" + queryString;
-  console.log(url);
+  console.log('getYouTubeVideos()',url);
+//   debugger
+
+  if(cache[url]){
+      console.log('cached youtube videos response', cache[url])
+        displayVideoResults(cache[url])
+        return
+  }  
+
   fetch(url)
     .then(response => {
       if (response.ok) {
@@ -760,8 +811,12 @@ function getYouTubeVideos(trackTitle) {
       throw new Error(response.statusText);
     })
     .then(responseJson => {
+      cache[url]=responseJson  
       console.log('youtube videos response', responseJson)
       displayVideoResults(responseJson)
+      //
+      console.log('responseJson.nextPageToken',responseJson.nextPageToken)
+      STORE.nextPageToken.push(responseJson.nextPageToken);
     })
     .catch(err => {
       $("#js-error-message").text(`Something went wrong: ${err.message}`);

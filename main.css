@@ -11,7 +11,7 @@
 since there will be a delay when album art loads */
 /* maybe have a home button on the top left for mobile? */
 /* when do next albums page it starts at bottom of page but it should go back to top. */
-
+/* fix clicking on current page number goes to next */
 
 
 
@@ -34,7 +34,9 @@ a:hover {
 }
 
 body {
-  font-family: 'Michroma', sans-serif;
+  /* font-family: 'Michroma', sans-serif; */
+  font-family: 'Roboto', sans-serif;
+
   background-color: #151515;
   color: rgb(163, 149, 117);
   padding: 0;
@@ -47,6 +49,8 @@ header {
   /* font-size: 0.8rem */
   /* padding: 10px 0 0 0; */
 /* text-align: center; */
+  font-family: 'Michroma', sans-serif;
+
 }
 
 .main-heading {
@@ -58,12 +62,21 @@ header {
   text-align: center;
 }
 
+.fa-angle-double-left {
+  color: rgb(134, 178, 204);
+  }
+
 .back-button {
   position: absolute;
-  border:1px yellow;
+  /* border:1px yellow; */
   font-size: 4rem;
   top: -10px;
   left: 10px;
+}
+
+.fa-angle-double-left:hover {
+  color: rgb(80, 158, 204);
+  border: 2px solid rgba(80, 159, 204, 0);
 }
 
 .back-text {
@@ -72,10 +85,12 @@ header {
 
 #js-form {
   width:85%;
-  margin: 0 auto;  
+  margin:  40px auto;  
 }
 
 .search-container {
+  font-family: 'Roboto', sans-serif;
+
   display:flex;
   max-width: 500px;
   margin:0 auto;
@@ -88,6 +103,24 @@ header {
   height: 40px;
   text-align: left;
   vertical-align: middle;  
+  padding-left: 10px;
+  font-size: 1.05rem;
+  border: 2px solid white;
+  border-radius: 10px 0px 0px 10px;
+  transition: all 0.4s;
+
+}
+
+.search-field:focus, .search-field:hover {
+  outline:0;
+  /* background-color: rgb(209, 223, 231); */
+  background-color:rgb(209, 204, 192);
+  border: 2px solid rgb(134, 178, 204);
+  /* border: 2px solid rgb(209, 204, 192);  */
+}
+
+.fa-angle-double-left {
+color: rgb(134, 178, 204);
 }
 
 .submit-button {
@@ -96,27 +129,153 @@ header {
   flex-basis: 70px;
   line-height: 34px;
   font-size: 1.5rem;
-  border: 2px solid lightgray;
-  border-radius: 4px;
+  border: 2px solid rgb(134, 178, 204);
+  border-radius: 0px 10px 10px 0px;
   width: 70px;
   vertical-align: middle;
+  background-color: rgb(134, 178, 204);
+  transition: all 0.4s;
 }
 
-input[type="submit"]:hover {
+.submit-button:hover,.prev-artist-button:hover,
+.next-artist-button:hover {
   cursor: pointer;
+  background-color: rgb(80, 158, 204);
+  border: 2px solid rgb(80, 158, 204);
+}
+
+.submit-button:focus,.prev-artist-button:focus,
+.next-artist-button:focus {
+  border: 2px solid rgb(80, 158, 204);
+  /* background-color: rgb(80, 158, 204); */
+  outline:0;
+}
+
+
+.prev-artist-button,.next-artist-button {
+  
+  border: 2px solid rgb(134, 178, 204);
+  border-radius: 5px;
+  width: 80px;
+  background-color: rgb(134, 178, 204);
+  transition: all 0.4s;
+}
+
+
+/* try one way  */
+
+.artists-list-nav-wrapper {
+  /* border: 3px solid rgb(88, 88, 28); */
+  /* width: 200px; */
+  /* text-align: center; */
+  /* margin: 0 auto; */
+}
+
+.artists-list-nav {
+  /* display: flex ; */
+  /* border: 1px solid rgb(174, 174, 236); */
+  /* width: 200px; */
+  /* position: relative; */
+  /* text-align: center; */
+
+}
+
+.prev-artist-button {
+   /* justify-self: end; */
+   /* float:left; */
+   /* float: left; */
+}
+
+
+.next-artist-button {
+  /* align-self:flex-end; */
+  /* float: right */
+  
+}
+
+.artist-page-number {
+  /* text-align: center; */
+  /* display:inline-block; */
+  /* position: absolute; */
+  /* align-self: center; */
+  /* left: 90px; */
+  /* margin-left: 50%; */
+  /* margin-right: 50%; */
+  /* margin: 0 auto; */
+  /* left:auto; */
+  /* right:auto; */
 }
 
 
 
-input[type="number"],input[type="text"] {
-  /* padding: 0 0 0 5px;
-  line-height: 43px;
-  font-size: 1.2rem;
-  border: 2px solid lightgray;
-  border-radius: 4px; */
-  /* background-color: rgb(197, 197, 197); */
-  /* color:lightgray; */
+/* try another  way  */
+
+
+.artists-list-nav-wrapper {
+  border: 3px solid rgb(88, 88, 28);
+  width: 15rem;
+  text-align: center;
+  margin: 0 auto;
+
 }
+
+.artists-list-nav {
+  display: flex ;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid rgb(174, 174, 236);
+  /* width: 15rem; */
+  /* position: relative; */
+  /* position: absolute; */
+  text-align: center;
+
+}
+
+.prev-artist-button {
+   /* justify-self: start; */
+   /* float:left; */
+}
+
+
+.next-artist-button {
+  /* justify-self: right; */
+  /* align-self:flex-end; */
+  /* float:right !important; */
+  
+}
+
+.artist-page-number {
+  
+  /* text-align: center; */
+  /* display:inline-block; */
+  /* position: absolute; */
+  /* position: relative; */
+  /* align-self: center; */
+  /* justify-self: center; */
+  /* left: 90px; */
+  /* margin-left: 50%; */
+  /* margin-right: 50%; */
+  /* margin: 0 auto; */
+  /* left:auto; */
+  /* right:auto; */
+  /* top: 50%; */
+  /* left: 50%; */
+  /* margin-right: -50%; */
+  transform: translate(0%, 10%);
+}
+
+.prev-artist-button:hover,.next-artist-button:hover {
+  cursor: pointer;
+  background-color: rgb(80, 158, 204);
+  border: 2px solid rgb(80, 158, 204);
+}
+
+.prev-artist-button:focus,.next-artist-button:focus {
+  border: 2px solid rgb(80, 158, 204);
+  outline:0;
+} */
+
+
 
 
 
@@ -128,15 +287,19 @@ input[type="number"],input[type="text"] {
     /* margin: 100px 0; */
 }
 
+
+.artist-results-title {
+  /* padding-left: 40px; */
+  font-size: 1.5rem;
+}
+
+.artist-results-title, .artists-list {
+  padding-left: 15vw;
+}
+
 li {
   list-style: none;
 }
-
-
-form {
-  /* max-width: 800px; */
-}
-
 
 
 
