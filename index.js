@@ -95,6 +95,8 @@ const STORE = {
   tracksNextPageNumber: null,
   tracksPrevPageNumber: null,
 
+  trackTitle: null,
+
   videosResultsPerPage: 5,
   videosCurrentPageNumber: 1,
   videosNextPageNumber: null,
@@ -191,10 +193,12 @@ function resetAll() {
   STORE.tracksNextPageNumber = null
   STORE.tracksPrevPageNumber = null
 
-  STORE.videosResultsPerPage = 5
+  STORE.videosResultsPerPage = 10
   STORE.videosCurrentPageNumber = 1
   STORE.videosNextPageNumber = null
   STORE.videosPrevPageNumber = null
+
+  STORE.videosCount = null
 
   STORE.nextPageToken = [null];
 
@@ -217,6 +221,16 @@ function resetReleaseGroupsData() {
 
 }
 
+function resetVideoResultsData() {
+  STORE.nextPageToken= [null];
+  STORE.videosCurrentPageNumber = 1
+  STORE.videosNextPageNumber = null
+  STORE.videosPrevPageNumber = null
+
+  STORE.videosCount = null
+
+}
+
 function makeOffsetArtists(pageNum) {
   return (pageNum - 1) * STORE.artistResultsPerPage
 }
@@ -224,6 +238,10 @@ function makeOffsetArtists(pageNum) {
 function makeOffsetAlbums(pageNum) {
   return (pageNum - 1) * STORE.albumsResultsPerPage
 }
+
+// function makeOffsetVideos(pageNum) {
+//   return (pageNum - 1) * STORE.videosResultsPerPage
+// }
 
 function getNextPageArtists() {
   console.log('STORE.artistQueryResponse(): ', STORE.artistQueryResponse)
@@ -248,6 +266,24 @@ function getNextPageAlbums() {
   }
   return null
 }
+
+function getNextPageVideos() {
+  console.log('getNextPageVideos() triggered')
+  const itemCount = STORE.videosCount;
+  console.log(' getNextPageVideos() itemCount',itemCount,STORE.videosCount)
+  console.log(' videosCurrentPageNumber()',STORE.videosCurrentPageNumber)
+
+  const pageCount = Math.ceil(itemCount / STORE.videosResultsPerPage)
+    console.log('pageCount', pageCount)
+
+  if (STORE.videosCurrentPageNumber < pageCount) {
+    return STORE.videosCurrentPageNumber + 1
+  }
+  return null 
+}
+
+// put this in get next page stuff item count above
+// pageInfo.totalResults
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map(
@@ -419,9 +455,6 @@ function displayReleaseGroupsList() {
       </div>
   </li>`
     );
-
-
-
   }
 
   $(".albums-list-nav").empty()
@@ -549,19 +582,74 @@ function displayVideoResults(responseJson) {
     $(".videos-list").append(
       `<li class="grid-item">
       <div class="video-title-summary-box">
-      <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"  target="_blank">
-      <h3 class="clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
-      </a>
+          <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank">
+              <h3 class="clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
+          </a>
 
       </div>
       <div class="embedded-video-container">
-      <iframe  class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" allowfullscreen></iframe>
-
+          <iframe class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}"
+              allowfullscreen></iframe>
       </div>
-      
-      </li>`
+  </li>`
     );
   }
+
+  $(".videos-list-nav").empty()
+
+  const nextPage = getNextPageVideos()
+  console.log('next page displayVideoResults', nextPage)
+  STORE.videosNextPageNumber = null
+  if (nextPage) {
+    STORE.videosNextPageNumber = nextPage
+  }
+  // console.log('STORE.videosPrevPageNumber', STORE.videosPrevPageNumber)
+
+  STORE.videosPrevPageNumber = null
+  if (STORE.videosCurrentPageNumber > 1) {
+    STORE.videosPrevPageNumber = STORE.videosCurrentPageNumber - 1
+    // console.log('STORE.videosPrevPageNumber', STORE.videosPrevPageNumber)
+
+  }
+  // console.log('STORE.videosPrevPageNumber', STORE.videosPrevPageNumber)
+  if (STORE.videosPrevPageNumber) {
+    const btn = `
+        <button class="videos-button">videos page ${STORE.videosPrevPageNumber}</button>
+        
+        `
+    const $btn = $(btn)
+    $btn.click(ev => {
+      ev.preventDefault()
+      STORE.videosCurrentPageNumber = STORE.videosPrevPageNumber
+
+      // console.log('PREV PAGE', STORE.albumsCurrentPageNumber)
+      // getArtistListFromQuery()
+      // getReleaseGroupsFromartistMBID(artistMBID);
+      // displayVideoResults();
+      getYouTubeVideos(STORE.trackTitle);
+    })
+    $(".videos-list-nav").append($btn)
+  }
+  if (STORE.videosNextPageNumber) {
+    const nextBtn = `
+
+        <button class="videos-button">videos page ${STORE.videosNextPageNumber}</button>
+        
+        `
+    const $next = $(nextBtn)
+    $next.click(ev => {
+      ev.preventDefault()
+      STORE.videosCurrentPageNumber = STORE.videosNextPageNumber
+      // console.log('STORE.albumsCurrentPageNumber', STORE.albumsCurrentPageNumber)
+      // console.log('albums NEXT PAGE')
+      // getArtistListFromQuery()
+      // getReleaseGroupsFromartistMBID(artistMBID)
+      getYouTubeVideos(STORE.trackTitle);
+      // displayVideoResults()
+    })
+    $(".videos-list-nav").append($next)
+  }
+
 
   // <p class="clampedText clampedLines2">${responseJson.items[i].snippet.description}</p>
 
@@ -788,8 +876,12 @@ function getYouTubeVideos(trackTitle) {
     maxResults: '10',
     type: "video",
     order: 'relevance',
-    nextPageToken: STORE.nextPageToken[STORE.videosCurrentPageNumber-1],
+  
   };
+  // ** below condition might not be correct. check it.. 
+  if (STORE.nextPageToken[STORE.videosCurrentPageNumber-1] !== null) {
+    params.pageToken= STORE.nextPageToken[STORE.videosCurrentPageNumber-1]
+  }
   console.log('videos current page number:',STORE.videosCurrentPageNumber)
   console.log('STORE.nextPageToken:',STORE.nextPageToken)
   const queryString = formatQueryParams(params);
@@ -797,11 +889,11 @@ function getYouTubeVideos(trackTitle) {
   console.log('getYouTubeVideos()',url);
 //   debugger
 
-  if(cache[url]){
-      console.log('cached youtube videos response', cache[url])
-        displayVideoResults(cache[url])
-        return
-  }  
+  // if(cache[url]){
+  //     console.log('cached youtube videos response', cache[url])
+  //       displayVideoResults(cache[url])
+  //       return
+  // }  
 
   fetch(url)
     .then(response => {
@@ -811,12 +903,16 @@ function getYouTubeVideos(trackTitle) {
       throw new Error(response.statusText);
     })
     .then(responseJson => {
-      cache[url]=responseJson  
+      // cache[url]=responseJson  
+      console.log('responseJson.nextPageToken',responseJson.nextPageToken)
+      STORE.nextPageToken.push(responseJson.nextPageToken);
+      STORE.videosCount = responseJson.pageInfo.totalResults;
       console.log('youtube videos response', responseJson)
       displayVideoResults(responseJson)
       //
-      console.log('responseJson.nextPageToken',responseJson.nextPageToken)
-      STORE.nextPageToken.push(responseJson.nextPageToken);
+
+      console.log('STORE.videosCount', STORE.videosCount)
+
     })
     .catch(err => {
       $("#js-error-message").text(`Something went wrong: ${err.message}`);
@@ -887,8 +983,10 @@ function handleSelectReleaseGroup() {
 function handleSelectTrack() {
   $('.tracks-page').on('click', '.track-name', function (event) {
     event.preventDefault();
-    $('.tracks-page').addClass('hidden')
+    resetVideoResultsData() 
 
+    $('.tracks-page').addClass('hidden')
+    STORE.trackTitle = $(event.target).text()
     // $('.tracks-list').addClass('hidden')
     // grab the element that was clicked
     console.log('event target track: clicked', $(event.target).text())
