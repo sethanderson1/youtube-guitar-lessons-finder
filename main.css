@@ -145,14 +145,17 @@ color: rgb(134, 178, 204);
 }
 
 .submit-button:focus,.prev-artist-button:focus,
-.next-artist-button:focus {
+.next-artist-button:focus,.prev-albums-button,
+ .next-albums-button  {
   border: 2px solid rgb(80, 158, 204);
   /* background-color: rgb(80, 158, 204); */
   outline:0;
 }
 
 
-.prev-artist-button,.next-artist-button {
+.prev-artist-button,.next-artist-button, 
+.prev-albums-button, .next-albums-button,
+.prev-videos-button,.next-videos-button {
   
   border: 2px solid rgb(134, 178, 204);
   border-radius: 5px;
@@ -162,115 +165,47 @@ color: rgb(134, 178, 204);
 }
 
 
-/* try one way  */
 
-.artists-list-nav-wrapper {
+
+.artists-list-nav-wrapper,.albums-list-nav-wrapper,
+.videos-list-nav-wrapper, .albums-list-nav,
+.videos-list-nav {
   /* border: 3px solid rgb(88, 88, 28); */
-  /* width: 200px; */
-  /* text-align: center; */
-  /* margin: 0 auto; */
-}
-
-.artists-list-nav {
-  /* display: flex ; */
-  /* border: 1px solid rgb(174, 174, 236); */
-  /* width: 200px; */
-  /* position: relative; */
-  /* text-align: center; */
-
-}
-
-.prev-artist-button {
-   /* justify-self: end; */
-   /* float:left; */
-   /* float: left; */
-}
-
-
-.next-artist-button {
-  /* align-self:flex-end; */
-  /* float: right */
-  
-}
-
-.artist-page-number {
-  /* text-align: center; */
-  /* display:inline-block; */
-  /* position: absolute; */
-  /* align-self: center; */
-  /* left: 90px; */
-  /* margin-left: 50%; */
-  /* margin-right: 50%; */
-  /* margin: 0 auto; */
-  /* left:auto; */
-  /* right:auto; */
-}
-
-
-
-/* try another  way  */
-
-
-.artists-list-nav-wrapper {
-  border: 3px solid rgb(88, 88, 28);
   width: 15rem;
   text-align: center;
   margin: 0 auto;
 
 }
 
-.artists-list-nav {
+.artists-list-nav, .albums-list-nav,
+.videos-list-nav {
   display: flex ;
   flex-direction: row;
   justify-content: space-between;
-  border: 1px solid rgb(174, 174, 236);
+  /* border: 1px solid rgb(174, 174, 236); */
   /* width: 15rem; */
   /* position: relative; */
   /* position: absolute; */
   text-align: center;
+  margin: 5rem 0;
 
 }
 
-.prev-artist-button {
-   /* justify-self: start; */
-   /* float:left; */
-}
+ /* i hsould put a margin below nav buttons on albums page  */
 
 
-.next-artist-button {
-  /* justify-self: right; */
-  /* align-self:flex-end; */
-  /* float:right !important; */
-  
-}
 
-.artist-page-number {
-  
-  /* text-align: center; */
-  /* display:inline-block; */
-  /* position: absolute; */
-  /* position: relative; */
-  /* align-self: center; */
-  /* justify-self: center; */
-  /* left: 90px; */
-  /* margin-left: 50%; */
-  /* margin-right: 50%; */
-  /* margin: 0 auto; */
-  /* left:auto; */
-  /* right:auto; */
-  /* top: 50%; */
-  /* left: 50%; */
-  /* margin-right: -50%; */
-  transform: translate(0%, 10%);
-}
-
-.prev-artist-button:hover,.next-artist-button:hover {
+.prev-artist-button:hover,.next-artist-button:hover,
+.prev-albums-button:hover,.next-albums-button:hover,
+.prev-videos-button:hover,.next-videos-button:hover {
   cursor: pointer;
   background-color: rgb(80, 158, 204);
   border: 2px solid rgb(80, 158, 204);
 }
 
-.prev-artist-button:focus,.next-artist-button:focus {
+.prev-artist-button:focus,.next-artist-button:focus,
+.prev-albums-button:focus,.next-albums-button:focus,
+.prev-videos-button:focus,.next-videos-button:focus {
   border: 2px solid rgb(80, 158, 204);
   outline:0;
 } */

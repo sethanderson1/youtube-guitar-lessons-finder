@@ -422,9 +422,11 @@ function displayReleaseGroupsList() {
   console.log(`offset`, offset)
   $('.albums-page').append(`
   <div class="albums">
-  <ul class="albums-list list"></ul>
-  <nav class="albums-list-nav" role="navigation"></nav>
-</div>`)
+      <ul class="albums-list list"></ul>
+      <div class="albums-list-nav-wrapper">
+        <nav class="albums-list-nav" role="navigation"></nav>
+      </div>
+  </div>`)
 
   let offsetPlus = Math.min(offset + STORE.albumsResultsPerPage, albums.length)
   // ** adjust size based on screensize? or flex enlarge small image?
@@ -474,9 +476,21 @@ function displayReleaseGroupsList() {
 
   }
   console.log('STORE.albumsPrevPageNumber', STORE.albumsPrevPageNumber)
+
+
+  if (STORE.albumsCurrentPageNumber == 1) {
+    const btn = `
+        <button class="prev-albums-button hover-link">< prev</button>
+        
+        `
+    const $btn = $(btn)
+  
+    $(".albums-list-nav").append($btn)
+  }
+
   if (STORE.albumsPrevPageNumber) {
     const btn = `
-        <button class="albums-button">albums page ${STORE.albumsPrevPageNumber}</button>
+        <button class="prev-albums-button hover-link">< prev</button>
         
         `
     const $btn = $(btn)
@@ -492,10 +506,25 @@ function displayReleaseGroupsList() {
     })
     $(".albums-list-nav").append($btn)
   }
+
+  // prev-artist-button hover-link
+
+  if (STORE.albumsNextPageNumber == null) {
+    const nextBtn = `
+        <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
+        <button class="next-albums-button hover-link">next ></button>
+        
+        `
+    const $next = $(nextBtn)
+    
+    $(".albums-list-nav").append($next)
+  }
+
+
   if (STORE.albumsNextPageNumber) {
     const nextBtn = `
-
-        <button class="albums-button">albums page ${STORE.albumsNextPageNumber}</button>
+        <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
+        <button class="next-albums-button hover-link">next ></button>
         
         `
     const $next = $(nextBtn)
@@ -569,12 +598,13 @@ function displayVideoResults(responseJson) {
   console.log('from displayVideoResults() ', responseJson.items.length);
   $('.videos-page').append(`
   <div class="videos">
-  <ul class="videos-list list grid-container"></ul>
-  <nav class="videos-list-nav" role="navigation"></nav>
-</div>`)
+    <ul class="videos-list list grid-container"></ul>
+    <div class="videos-list-nav-wrapper">
+      <nav class="videos-list-nav" role="navigation"></nav>
+    </div>
+  </div>`)
+  
   for (let i = 0; i < responseJson.items.length; i++) {
-
-
     // localStorage.setItem(`https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`, `https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`)
     console.log('responseJson.items[i].id.videoId', responseJson.items[i].id.videoId)
     // console.log('responseJson.items[i].id.videoId', responseJson.items[i].id.videoId)
@@ -611,10 +641,19 @@ function displayVideoResults(responseJson) {
     // console.log('STORE.videosPrevPageNumber', STORE.videosPrevPageNumber)
 
   }
-  // console.log('STORE.videosPrevPageNumber', STORE.videosPrevPageNumber)
+  if (STORE.videosCurrentPageNumber == 1) {
+    const btn = `
+        <button class="prev-videos-button">< prev</button>
+        
+        `
+    const $btn = $(btn)
+
+    $(".videos-list-nav").append($btn)
+  }
+
   if (STORE.videosPrevPageNumber) {
     const btn = `
-        <button class="videos-button">videos page ${STORE.videosPrevPageNumber}</button>
+        <button class="prev-videos-button">< prev</button>
         
         `
     const $btn = $(btn)
@@ -630,10 +669,23 @@ function displayVideoResults(responseJson) {
     })
     $(".videos-list-nav").append($btn)
   }
-  if (STORE.videosNextPageNumber) {
+
+  if (STORE.videosNextPageNumber == null) {
     const nextBtn = `
 
-        <button class="videos-button">videos page ${STORE.videosNextPageNumber}</button>
+        <button class="next-videos-button">next ></button>
+        
+        `
+    const $next = $(nextBtn)
+  
+    $(".videos-list-nav").append($next)
+  }
+
+  if (STORE.videosNextPageNumber) {
+    const nextBtn = `
+    <span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>
+
+        <button class="next-videos-button">next ></button>
         
         `
     const $next = $(nextBtn)
