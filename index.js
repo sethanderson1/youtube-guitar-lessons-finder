@@ -80,12 +80,12 @@ const STORE = {
   // releaseID: null,
 
 
-  artistResultsPerPage: 5,
+  artistResultsPerPage: 10,
   artistCurrentPageNumber: 1,
   artistNextPageNumber: null,
   artistPrevPageNumber: null,
 
-  albumsResultsPerPage: 5,
+  albumsResultsPerPage: 12,
   albumsCurrentPageNumber: 1,
   albumsNextPageNumber: null,
   albumsPrevPageNumber: null,
@@ -97,7 +97,7 @@ const STORE = {
 
   trackTitle: null,
 
-  videosResultsPerPage: 5,
+  videosResultsPerPage: 10,
   videosCurrentPageNumber: 1,
   videosNextPageNumber: null,
   videosPrevPageNumber: null,
@@ -178,12 +178,12 @@ function resetAll() {
   // STORE.releaseID= null
 
 
-  STORE.artistResultsPerPage = 5
+  STORE.artistResultsPerPage = 10
   STORE.artistCurrentPageNumber = 1
   STORE.artistNextPageNumber = null
   STORE.artistPrevPageNumber = null
 
-  STORE.albumsResultsPerPage = 5
+  STORE.albumsResultsPerPage = 12
   STORE.albumsCurrentPageNumber = 1
   STORE.albumsNextPageNumber = null
   STORE.albumsPrevPageNumber = null
@@ -212,7 +212,7 @@ function resetReleaseGroupsData() {
   STORE.sortedReleaseGroupDates = null
   STORE.releaseGroupResponseReleaseGroupFiltered = null
 
-  STORE.albumsResultsPerPage = 5
+  STORE.albumsResultsPerPage = 12
   STORE.albumsCurrentPageNumber = 1
   STORE.albumsNextPageNumber = null
   STORE.albumsPrevPageNumber = null
@@ -562,7 +562,7 @@ function displayTracksList() {
   <section class="tracks-heading-container">
   <h4 class="tracks-results-title">${STORE.selectedAlbumTitle}</h4>
   <div class="album-cover-container"> 
-  <img data-id="album-cover-tracks-page" src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
+  <img id="album-cover-tracks-page" src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
   </div>
   </section>`
   )

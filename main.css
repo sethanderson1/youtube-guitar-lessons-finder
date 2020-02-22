@@ -29,8 +29,8 @@ since there will be a delay when album art loads */
 
 .tracks-item{
     list-style: none;
-    padding: 1.5em;
-    margin-bottom: 2em;
+    padding: 0.6rem;
+    margin: 0.25rem 0;
     background-color: #333;
 }
 
@@ -248,10 +248,12 @@ color: rgb(134, 178, 204);
 
 
 .artist-results-title, .artists-list {
-  padding-left: 15vw;
+  /* padding-left: 15vw; */
+  padding: 0 5%;
 }
 
-.artist-results-title, .albums-results-title {
+.artist-results-title, .albums-results-title,
+.tracks-results-title {
   font-size: 2rem;
   margin-bottom: 2rem;
 }
@@ -366,6 +368,11 @@ li.albums-item {
 #album-cover-tracks-page {
   width:100%;
   max-width: 400px;
+}
+
+.tracks-page {
+  width:90%;
+  margin:0 auto;
 }
 
 
