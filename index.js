@@ -307,7 +307,7 @@ function displayArtistList() {
 
   $('.artists-page').append(`
   <section class="artists-heading-container">
-  <h4 class="artist-results-title">Artist</h4>
+  <h2 class="artist-results-title">Artist</h2>
   </section>`
   )
 
@@ -325,7 +325,8 @@ function displayArtistList() {
     // console.log(artists[i].name);
     $(".artists-list").append(
       `<li class="artist-item">
-      <p><span class="artist-name hover-link pointer item" id=${artists[i].id}>${artists[i].name}</span></p>
+      <p class="artist-name hover-link pointer item"
+      data-id=${artists[i].id}>${artists[i].name} </p>
       </li>`
     );
   }
@@ -410,7 +411,7 @@ function displayReleaseGroupsList() {
 
   $('.albums-page').append(`
   <section class="albums-heading-container">
-  <h4 class="albums-results-title">${STORE.selectedArtist}</h4>
+  <h2 class="albums-results-title">${STORE.selectedArtist}</h2>
   </section>`
   )
   const artistMBID = STORE.artistMBID
@@ -445,13 +446,14 @@ function displayReleaseGroupsList() {
 
       `<li class="albums-item">
       <div class="album-info-wrapper">
-      <p class="album-title-name pointer"><span class="album-name album-name-span pointer item"
-      id=${albums[i].id}>${albums[i].title}</span></p>
-      <p class="album-date pointer"><span class="album-name item"
-      id=${albums[i].id}>${albums[i][`first-release-date`].slice(0, 4)}</span></p>
-
+        <p class="album-title-name pointer"><span class="album-name album-name-span pointer item"
+          data-id=${albums[i].id}>${albums[i].title}</span></p>
+        <p class="album-date pointer"><span class="album-name item"
+          data-id=${albums[i].id}>${albums[i][`first-release-date`].slice(0, 4)}</span></p>
               <div class="thumbnail-container">
-                  <img class="album-name pointer item album-image" id=${albums[i].id}
+                  <img 
+                  aria-label="${albums[i].title} cover art"
+                  class="album-name pointer item album-image" data-id=${albums[i].id}
                       src="http://coverartarchive.org/release-group/${albums[i].id}/front-${thumbnailSize}"></img>
               </div>
       </div>
@@ -560,7 +562,7 @@ function displayTracksList() {
   <section class="tracks-heading-container">
   <h4 class="tracks-results-title">${STORE.selectedAlbumTitle}</h4>
   <div class="album-cover-container"> 
-  <img id="album-cover-tracks-page" src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
+  <img data-id="album-cover-tracks-page" src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
   </div>
   </section>`
   )
@@ -603,7 +605,7 @@ function displayVideoResults(responseJson) {
       <nav class="videos-list-nav" role="navigation"></nav>
     </div>
   </div>`)
-  
+
   for (let i = 0; i < responseJson.items.length; i++) {
     // localStorage.setItem(`https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`, `https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`)
     console.log('responseJson.items[i].id.videoId', responseJson.items[i].id.videoId)
@@ -615,7 +617,6 @@ function displayVideoResults(responseJson) {
           <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank">
               <h3 class="clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
           </a>
-
       </div>
       <div class="embedded-video-container">
           <iframe class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}"
@@ -624,7 +625,6 @@ function displayVideoResults(responseJson) {
   </li>`
     );
   }
-
   $(".videos-list-nav").empty()
 
   const nextPage = getNextPageVideos()
@@ -660,7 +660,7 @@ function displayVideoResults(responseJson) {
     $btn.click(ev => {
       ev.preventDefault()
       STORE.videosCurrentPageNumber = STORE.videosPrevPageNumber
-
+      STORE.nextPageToken.pop()
       // console.log('PREV PAGE', STORE.albumsCurrentPageNumber)
       // getArtistListFromQuery()
       // getReleaseGroupsFromartistMBID(artistMBID);
@@ -683,19 +683,16 @@ function displayVideoResults(responseJson) {
 
   if (STORE.videosNextPageNumber) {
     const nextBtn = `
-    <span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>
-
-        <button class="next-videos-button">next ></button>
-        
+        <span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>
+        <a href="#top"> 
+            <button class="next-videos-button">next ></button>
+        </a>
         `
     const $next = $(nextBtn)
     $next.click(ev => {
-      ev.preventDefault()
+    //   ev.preventDefault()
       STORE.videosCurrentPageNumber = STORE.videosNextPageNumber
-      // console.log('STORE.albumsCurrentPageNumber', STORE.albumsCurrentPageNumber)
-      // console.log('albums NEXT PAGE')
-      // getArtistListFromQuery()
-      // getReleaseGroupsFromartistMBID(artistMBID)
+
       getYouTubeVideos(STORE.trackTitle);
       // displayVideoResults()
     })
@@ -1000,8 +997,8 @@ function handleSelectArtist() {
     // grab the element that was clicked
     console.log('event target: clicked', $(event.target).text())
     // console.log('event target: clicked', $(event.target).attr('id'))
-    STORE.artistID = $(event.target).attr('id');
-    getReleaseGroupsFromArtistID($(event.target).attr('id'));
+    STORE.artistID = $(event.target).attr('data-id');
+    getReleaseGroupsFromArtistID($(event.target).attr('data-id'));
     console.log('selected Artist ', $(event.target).text())
     STORE.selectedArtist = $(event.target).text();
 
@@ -1025,8 +1022,8 @@ function handleSelectReleaseGroup() {
     STORE.selectedAlbumTitle = $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
 
 
-    STORE.selectedAlbumID = $(event.target).attr('id')
-    getReleasesFromReleaseGroupID($(event.target).attr('id'));
+    STORE.selectedAlbumID = $(event.target).attr('data-id')
+    getReleasesFromReleaseGroupID($(event.target).attr('data-id'));
     // $('.albums-list').addClass('hidden')
     // $('.albums-list-nav').addClass('hidden')
   })

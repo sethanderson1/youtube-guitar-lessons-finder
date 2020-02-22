@@ -17,7 +17,25 @@ since there will be a delay when album art loads */
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   /* font-family: 'Michroma', sans-serif; */
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tracks-item{
+    list-style: none;
+    padding: 1.5em;
+    margin-bottom: 2em;
+    background-color: #333;
+}
+
+.tracks-item:hover {
+    background-color: #666;
 }
 
 a {
@@ -159,7 +177,8 @@ color: rgb(134, 178, 204);
   
   border: 2px solid rgb(134, 178, 204);
   border-radius: 5px;
-  width: 80px;
+  width: 7rem;
+  height: 2.5rem;
   background-color: rgb(134, 178, 204);
   transition: all 0.4s;
 }
@@ -171,7 +190,7 @@ color: rgb(134, 178, 204);
 .videos-list-nav-wrapper, .albums-list-nav,
 .videos-list-nav {
   /* border: 3px solid rgb(88, 88, 28); */
-  width: 15rem;
+  width: 19rem;
   text-align: center;
   margin: 0 auto;
 
@@ -208,11 +227,15 @@ color: rgb(134, 178, 204);
 .prev-videos-button:focus,.next-videos-button:focus {
   border: 2px solid rgb(80, 158, 204);
   outline:0;
-} */
+} 
 
 
 
-
+.artist-page-number, .albums-page-number,
+.videos-page-number {
+  font-size: 1.4rem;
+  align-self: center;
+}
 
 
 #results {
@@ -223,13 +246,33 @@ color: rgb(134, 178, 204);
 }
 
 
-.artist-results-title {
-  /* padding-left: 40px; */
-  font-size: 1.5rem;
-}
 
 .artist-results-title, .artists-list {
   padding-left: 15vw;
+}
+
+.artist-results-title, .albums-results-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.artist-item {
+  background-color: rgb(41, 38, 38);
+  margin: 0.3rem 0;
+}
+
+.artist-item:hover {
+  background-color: rgb(83, 77, 77);
+}
+
+.artist-item:focus {
+  background-color: rgb(83, 77, 77);
+}
+
+.artist-name {
+  padding: 0.3rem 0.3rem;
+  font-size:1.4rem;
+  color:rgb(134, 178, 204);
 }
 
 li {
@@ -250,33 +293,70 @@ li {
 
 
 
-
-
-
 .thumbnail-container {
   
-  display:inline-block;
+  /* display:inline-block; */
+}
+
+
+.albums-list {
+
+  display:flex;
+  flex-wrap: wrap;
+  padding: 0rem 0rem 0rem 0rem;
+  padding-inline-start: unset;
+
 }
 
 li.albums-item {
   /* display:block; */
-  display: inline;
+  /* display: inline; */
+  flex:0 0 100%;
+  border:1px solid gray;
+  padding:1rem;
+
 }
 
 .album-info-wrapper {
-  display:inline-block;
+  /* display:inline-block; */
+ 
+
+}
+
+@media only screen and (min-width: 450px) {
+  li.albums-item {
+    flex:0 0 50%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  li.albums-item {
+    flex:0 0 33%;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  li.albums-item {
+    flex:0 0 25%;
+  }
 }
 
 .album-title-name {
   /* display: inline; */
-  max-width: 250px;
+  /* max-width: 250px; */
+  margin: 0rem 0rem 0rem 0rem;
+}
+
+.album-date {
+  margin: 0rem 0rem 0rem 0rem;
+
 }
 
 .album-image {
-  height: 250px;
-  width: 250px;
+  /* height: 250px; */
+  /* width: 400px; */
+  width:100%;
 }
-
 
 
 .album-cover-container {
