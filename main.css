@@ -65,6 +65,7 @@ header {
 
 .main-heading {
   font-size: 1.4rem;
+  color: rgb(134, 178, 204);
   /* text-align-last: center; */
   margin: 0 auto 40px; /* remove margin for large screens */
   padding: 10px 0 0 0;
@@ -421,6 +422,11 @@ padding:0;
 
 .video-title-summary-box {
   /* max-width: 900px; */
+}
+
+.video-title {
+  color: rgb(134, 178, 204);
+
 }
 
 .grid-container{

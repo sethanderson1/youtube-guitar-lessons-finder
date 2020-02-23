@@ -42,6 +42,8 @@
 // playing until you go back to videos page
 // 
 
+// handle 403 error
+
 
 
 
@@ -528,13 +530,15 @@ function displayReleaseGroupsList() {
 
   if (STORE.albumsNextPageNumber) {
     const nextBtn = `
+
         <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
-        <button class="next-albums-button hover-link">next ></button>
-        
+        <a href="#top"> 
+          <button class="next-albums-button hover-link">next ></button>
+        </a>
         `
     const $next = $(nextBtn)
     $next.click(ev => {
-      ev.preventDefault()
+      // ev.preventDefault()
       STORE.albumsCurrentPageNumber = STORE.albumsNextPageNumber
       console.log('STORE.albumsCurrentPageNumber', STORE.albumsCurrentPageNumber)
       console.log('albums NEXT PAGE')
@@ -618,7 +622,7 @@ function displayVideoResults(responseJson) {
       `<li class="grid-item">
       <div class="video-title-summary-box">
           <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank">
-              <h3 class="clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
+              <h3 class="video-title clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
           </a>
       </div>
       <div class="embedded-video-container">
@@ -987,6 +991,7 @@ function handleSearchForm() {
     STORE.artistQuery = encodeURIComponent(artist)
 
     getArtistListFromQuery();
+    $('#js-search-term').val('')
     // console.log(encodeURIComponent(artist))
   });
 }
@@ -1046,7 +1051,16 @@ function handleSelectTrack() {
     getYouTubeVideos($(event.target).closest($('.tracks-item')).find($('.track-name')).text());
     // just hide whole tracks-page below
     // $('.tracks-list').addClass('hidden')
-    console.log('handleSelectTrack() done')
+    // console.log('handleSelectTrack() done')
+  })
+}
+
+function handleClickHome() {
+  $('.main-heading').on('click', function (event) {
+    event.preventDefault()
+    console.log('handleClickHome() triggered')
+
+    resetAll() 
   })
 }
 
@@ -1058,6 +1072,7 @@ function watchForm() {
   handleSelectArtist();
   handleSelectReleaseGroup();
   handleSelectTrack();
+  handleClickHome();
 }
 
 $(watchForm);
