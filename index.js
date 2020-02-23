@@ -123,6 +123,7 @@ function incrementHistory() {
 function backButton() {
   $('.js-back-button-container').on('click', function (event) {
     const prev = current - 1
+    resetVideoResultsData()
     console.log('backButton() clicked')
     console.log(`current`, current)
     const prevPage = history[prev]
@@ -228,6 +229,8 @@ function resetVideoResultsData() {
   STORE.videosPrevPageNumber = null
 
   STORE.videosCount = null
+  $(".videos-page").empty()
+
 
 }
 
@@ -444,16 +447,16 @@ function displayReleaseGroupsList() {
     console.log('i', i)
     $(".albums-list").append(
 
-      `<li class="albums-item">
-      <div class="album-info-wrapper">
-        <p class="album-title-name pointer"><span class="album-name album-name-span pointer item"
+      `<li class="albums-item album-name item" data-id=${albums[i].id}>
+      <div class="album-info-wrapper " data-id=${albums[i].id}>
+        <p class="album-title-name pointer " data-id=${albums[i].id}><span class="album-name album-title pointer"
           data-id=${albums[i].id}>${albums[i].title}</span></p>
-        <p class="album-date pointer"><span class="album-name item"
+        <p class="album-date pointer " data-id=${albums[i].id}><span class="album-name "
           data-id=${albums[i].id}>${albums[i][`first-release-date`].slice(0, 4)}</span></p>
-              <div class="thumbnail-container">
+              <div class="thumbnail-container " data-id=${albums[i].id}>
                   <img 
                   aria-label="${albums[i].title} cover art"
-                  class="album-name pointer item album-image" data-id=${albums[i].id}
+                  class="album-name pointer  album-image" data-id=${albums[i].id}
                       src="http://coverartarchive.org/release-group/${albums[i].id}/front-${thumbnailSize}"></img>
               </div>
       </div>
@@ -581,8 +584,8 @@ function displayTracksList() {
   for (let i = 0; i < tracks[0].tracks.length; i++) {
     console.log(i + ' ' + tracks[0].tracks[i].title);
     $(".tracks-list").append(
-      `<li class="tracks-item">
-      <p><span class="track-name pointer item">${tracks[0].tracks[i].title}</span></p>
+      `<li class="tracks-item item">
+      <p><span class="track-name pointer">${tracks[0].tracks[i].title}</span></p>
         </li>`
     );
   }
@@ -1017,9 +1020,9 @@ function handleSelectReleaseGroup() {
     console.log('event target: clicked', $(event.target).text())
     console.log('album name',
 
-      $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
+      $(event.target).closest($('.albums-item')).find($('.album-title')).text()
     )
-    STORE.selectedAlbumTitle = $(event.target).closest($('.album-info-wrapper')).find($('.album-name-span')).text()
+    STORE.selectedAlbumTitle = $(event.target).closest($('.albums-item')).find($('.album-title')).text()
 
 
     STORE.selectedAlbumID = $(event.target).attr('data-id')
@@ -1030,7 +1033,7 @@ function handleSelectReleaseGroup() {
 }
 
 function handleSelectTrack() {
-  $('.tracks-page').on('click', '.track-name', function (event) {
+  $('.tracks-page').on('click', '.tracks-item', function (event) {
     event.preventDefault();
     resetVideoResultsData() 
 
@@ -1038,9 +1041,9 @@ function handleSelectTrack() {
     STORE.trackTitle = $(event.target).text()
     // $('.tracks-list').addClass('hidden')
     // grab the element that was clicked
-    console.log('event target track: clicked', $(event.target).text())
+    console.log('event target track: clicked', $(event.target).closest($('.tracks-item')).find($('.track-name')).text())
     // console.log(typeof $(event.target).text())
-    getYouTubeVideos($(event.target).text());
+    getYouTubeVideos($(event.target).closest($('.tracks-item')).find($('.track-name')).text());
     // just hide whole tracks-page below
     // $('.tracks-list').addClass('hidden')
     console.log('handleSelectTrack() done')

@@ -13,7 +13,8 @@ since there will be a delay when album art loads */
 /* when do next albums page it starts at bottom of page but it should go back to top. */
 /* fix clicking on current page number goes to next */
 
-
+/* in albums page, figure out how to get the div img to 
+stick to the bottom of the container */
 
 * {
   box-sizing: border-box;
@@ -25,17 +26,6 @@ since there will be a delay when album art loads */
 .container{
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.tracks-item{
-    list-style: none;
-    padding: 0.6rem;
-    margin: 0.25rem 0;
-    background-color: #333;
-}
-
-.tracks-item:hover {
-    background-color: #666;
 }
 
 a {
@@ -62,6 +52,8 @@ body {
   /* font-family: "Fira Sans", sans-serif; */
   /* font-family: 'Roboto', sans-serif;} */
 }
+
+
 
 header {
   /* font-size: 0.8rem */
@@ -263,11 +255,13 @@ color: rgb(134, 178, 204);
   margin: 0.3rem 0;
 }
 
-.artist-item:hover {
+
+
+.artist-item:hover,.albums-item:hover {
   background-color: rgb(83, 77, 77);
 }
 
-.artist-item:focus {
+.artist-item:focus, .albums-item:focus {
   background-color: rgb(83, 77, 77);
 }
 
@@ -301,6 +295,7 @@ li {
 }
 
 
+
 .albums-list {
 
   display:flex;
@@ -310,13 +305,22 @@ li {
 
 }
 
-li.albums-item {
+.albums-item {
   /* display:block; */
   /* display: inline; */
   flex:0 0 100%;
-  border:1px solid gray;
-  padding:1rem;
+  /* border:1px solid gray; */
 
+  /* background-color: rgb(41, 38, 38); */
+  padding:1rem;
+}
+
+.albums-item:hover {
+  cursor: pointer;
+}
+
+.album-name {
+  /* font-size: 1.4rem; */
 }
 
 .album-info-wrapper {
@@ -325,19 +329,19 @@ li.albums-item {
 
 }
 
-@media only screen and (min-width: 450px) {
+@media only screen and (min-width: 425px) {
   li.albums-item {
     flex:0 0 50%;
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 900px) {
   li.albums-item {
     flex:0 0 33%;
   }
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1200px) {
   li.albums-item {
     flex:0 0 25%;
   }
@@ -347,10 +351,16 @@ li.albums-item {
   /* display: inline; */
   /* max-width: 250px; */
   margin: 0rem 0rem 0rem 0rem;
+  font-size: 1.2rem;
+  color: rgb(134, 178, 204);
+
 }
 
 .album-date {
   margin: 0rem 0rem 0rem 0rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: rgb(134, 178, 204);
 
 }
 
@@ -360,6 +370,9 @@ li.albums-item {
   width:100%;
 }
 
+.albums-results-title {
+  margin-left:1rem;
+}
 
 .album-cover-container {
   object-fit: contain;
@@ -374,6 +387,21 @@ li.albums-item {
   width:90%;
   margin:0 auto;
 }
+
+.tracks-item{
+  list-style: none;
+  font-size: 1.2rem;
+  color: rgb(134, 178, 204);
+  padding: 0.6rem;
+  margin: 0.25rem 0;
+  background-color: #333;
+}
+
+.tracks-item:hover, .tracks-item:focus {
+  background-color: #666;
+  cursor: pointer;
+}
+
 
 
 .videos {
