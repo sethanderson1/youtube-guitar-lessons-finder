@@ -362,8 +362,8 @@ function displayArtistList() {
   }
 
   if (STORE.artistNextPageNumber == null) {
+    const pageNum = `<span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>`;
     const nextBtn = `
-        <span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>
         <button class="next-artist-button hover-link">next <i class="fa fa-angle-right"></i></button>
         
         `
@@ -372,15 +372,15 @@ function displayArtistList() {
       ev.preventDefault()
 
     })
-    $(".artists-list-nav").append($next)
+    $(".artists-list-nav").append(pageNum).append($next)
 
   }
 
 
   if (STORE.artistNextPageNumber) {
-    
+    const pageNum = `<span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>`;
     const nextBtn = `
-        <span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>
+        
         <button class="next-artist-button hover-link">next <i class="fa fa-angle-right"></i></button>
         
         `
@@ -392,7 +392,7 @@ function displayArtistList() {
       getArtistListFromQuery()
       //refetch
     })
-    $(".artists-list-nav").append($next)
+    $(".artists-list-nav").append(pageNum).append($next)
   }
   $("#results").removeClass("hidden");
 
@@ -512,21 +512,20 @@ function displayReleaseGroupsList() {
   // prev-artist-button hover-link
 
   if (STORE.albumsNextPageNumber == null) {
+    const pageNum = `<span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>`;
     const nextBtn = `
-        <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
         <button class="next-albums-button hover-link">next <i class="fa fa-angle-right"></i></button>
         
         `
     const $next = $(nextBtn)
     
-    $(".albums-list-nav").append($next)
+    $(".albums-list-nav").append(pageNum).append($next)
   }
 
 
   if (STORE.albumsNextPageNumber) {
+    const pageNum = `<span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>`;
     const nextBtn = `
-
-        <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
         <a href="#top"> 
           <button class="next-albums-button hover-link">next <i class="fa fa-angle-right"></i></button>
         </a>
@@ -537,12 +536,9 @@ function displayReleaseGroupsList() {
       STORE.albumsCurrentPageNumber = STORE.albumsNextPageNumber
       console.log('STORE.albumsCurrentPageNumber', STORE.albumsCurrentPageNumber)
       console.log('albums NEXT PAGE')
-      // getArtistListFromQuery()
-      // getReleaseGroupsFromartistMBID(artistMBID)
       displayReleaseGroupsList()
-      //refetch
     })
-    $(".albums-list-nav").append($next)
+    $(".albums-list-nav").append(pageNum).append($next)
   }
 
   $("#results").removeClass("hidden");
@@ -673,6 +669,7 @@ function displayVideoResults(responseJson) {
   }
 
   if (STORE.videosNextPageNumber == null) {
+    const pageNum = `<span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>`;
     const nextBtn = `
 
         <button class="next-videos-button">next <i class="fa fa-angle-right"></i></button>
@@ -680,12 +677,12 @@ function displayVideoResults(responseJson) {
         `
     const $next = $(nextBtn)
   
-    $(".videos-list-nav").append($next)
+    $(".videos-list-nav").append(pageNum).append($next)
   }
 
   if (STORE.videosNextPageNumber) {
+    const pageNum = `<span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>`;
     const nextBtn = `
-        <span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>
         <a href="#top"> 
             <button class="next-videos-button">next <i class="fa fa-angle-right"></i></button>
         </a>
@@ -698,7 +695,7 @@ function displayVideoResults(responseJson) {
       getYouTubeVideos(STORE.trackTitle);
       // displayVideoResults()
     })
-    $(".videos-list-nav").append($next)
+    $(".videos-list-nav").append(pageNum).append($next)
   }
 
 
