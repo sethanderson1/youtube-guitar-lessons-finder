@@ -45,7 +45,8 @@ body {
   /* font-family: 'Michroma', sans-serif; */
   font-family: 'Roboto', sans-serif;
 
-  background-color: #151515;
+  /* background-color: #151515; */
+  background-color: #1f1b14;
   color: rgb(163, 149, 117);
   padding: 0;
   /* margin: 0; */
@@ -171,6 +172,10 @@ color: rgb(134, 178, 204);
   outline:0;
 }
 
+.fa-angle-right, .fa-angle-left {
+/* font-size: 3rem; */
+}
+
 
 .prev-artist-button,.next-artist-button, 
 .prev-albums-button, .next-albums-button,
@@ -179,9 +184,11 @@ color: rgb(134, 178, 204);
   border: 2px solid rgb(134, 178, 204);
   border-radius: 5px;
   width: 7rem;
+  font-size: 1.3rem;
   height: 2.5rem;
   background-color: rgb(134, 178, 204);
   transition: all 0.2s;
+  /* font-family: 'Roboto', sans-serif; */
 }
 
 
@@ -439,6 +446,12 @@ padding:0;
 
 .video-title {
   color: rgb(134, 178, 204);
+  font-size: 1.25rem;
+  transition: all 0.2s;
+}
+
+.video-title:hover {
+  color: rgb(80, 158, 204);
 
 }
 

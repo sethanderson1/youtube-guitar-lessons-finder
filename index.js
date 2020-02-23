@@ -335,7 +335,7 @@ function displayArtistList() {
   if (STORE.artistCurrentPageNumber ==1) {
 
     const btn = `
-        <button class="prev-artist-button hover-link">< prev</button>
+        <button class="prev-artist-button hover-link"><i class="fa fa-angle-left"></i> prev</button>
         
         `
     const $btn = $(btn)
@@ -346,7 +346,7 @@ function displayArtistList() {
 
   if (STORE.artistPrevPageNumber) {
     const btn = `
-        <button class="prev-artist-button hover-link">< prev</button>
+        <button class="prev-artist-button hover-link"><i class="fa fa-angle-left"></i> prev</button>
         
         `
     const $btn = $(btn)
@@ -364,7 +364,7 @@ function displayArtistList() {
   if (STORE.artistNextPageNumber == null) {
     const nextBtn = `
         <span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>
-        <button class="next-artist-button hover-link">next ></button>
+        <button class="next-artist-button hover-link">next <i class="fa fa-angle-right"></i></button>
         
         `
     const $next = $(nextBtn)
@@ -381,7 +381,7 @@ function displayArtistList() {
     
     const nextBtn = `
         <span class="artist-page-number">${STORE.artistCurrentPageNumber}</span>
-        <button class="next-artist-button hover-link">next ></button>
+        <button class="next-artist-button hover-link">next <i class="fa fa-angle-right"></i></button>
         
         `
     const $next = $(nextBtn)
@@ -482,7 +482,7 @@ function displayReleaseGroupsList() {
 
   if (STORE.albumsCurrentPageNumber == 1) {
     const btn = `
-        <button class="prev-albums-button hover-link">< prev</button>
+        <button class="prev-albums-button hover-link"><i class="fa fa-angle-left"></i> prev</button>
         
         `
     const $btn = $(btn)
@@ -492,7 +492,7 @@ function displayReleaseGroupsList() {
 
   if (STORE.albumsPrevPageNumber) {
     const btn = `
-        <button class="prev-albums-button hover-link">< prev</button>
+        <button class="prev-albums-button hover-link"><i class="fa fa-angle-left"></i> prev</button>
         
         `
     const $btn = $(btn)
@@ -514,7 +514,7 @@ function displayReleaseGroupsList() {
   if (STORE.albumsNextPageNumber == null) {
     const nextBtn = `
         <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
-        <button class="next-albums-button hover-link">next ></button>
+        <button class="next-albums-button hover-link">next <i class="fa fa-angle-right"></i></button>
         
         `
     const $next = $(nextBtn)
@@ -528,7 +528,7 @@ function displayReleaseGroupsList() {
 
         <span class="albums-page-number">${STORE.albumsCurrentPageNumber}</span>
         <a href="#top"> 
-          <button class="next-albums-button hover-link">next ></button>
+          <button class="next-albums-button hover-link">next <i class="fa fa-angle-right"></i></button>
         </a>
         `
     const $next = $(nextBtn)
@@ -617,7 +617,7 @@ function displayVideoResults(responseJson) {
       `<li class="grid-item">
       <div class="video-title-summary-box">
           <a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank">
-              <h3 class="video-title clampedText clampedLines2">${responseJson.items[i].snippet.title}</h3>
+              <h2 class="video-title clampedText clampedLines2">${responseJson.items[i].snippet.title}</h2>
           </a>
       </div>
       <div class="embedded-video-container">
@@ -645,7 +645,7 @@ function displayVideoResults(responseJson) {
   }
   if (STORE.videosCurrentPageNumber == 1) {
     const btn = `
-        <button class="prev-videos-button">< prev</button>
+        <button class="prev-videos-button"><i class="fa fa-angle-left"></i> prev</button>
         
         `
     const $btn = $(btn)
@@ -655,7 +655,7 @@ function displayVideoResults(responseJson) {
 
   if (STORE.videosPrevPageNumber) {
     const btn = `
-        <button class="prev-videos-button">< prev</button>
+        <button class="prev-videos-button"><i class="fa fa-angle-left"></i> prev</button>
         
         `
     const $btn = $(btn)
@@ -675,7 +675,7 @@ function displayVideoResults(responseJson) {
   if (STORE.videosNextPageNumber == null) {
     const nextBtn = `
 
-        <button class="next-videos-button">next ></button>
+        <button class="next-videos-button">next <i class="fa fa-angle-right"></i></button>
         
         `
     const $next = $(nextBtn)
@@ -687,7 +687,7 @@ function displayVideoResults(responseJson) {
     const nextBtn = `
         <span class="videos-page-number">${STORE.videosCurrentPageNumber}</span>
         <a href="#top"> 
-            <button class="next-videos-button">next ></button>
+            <button class="next-videos-button">next <i class="fa fa-angle-right"></i></button>
         </a>
         `
     const $next = $(nextBtn)
