@@ -24,7 +24,7 @@ stick to the bottom of the container */
 }
 
 .container{
-    max-width: 1200px;
+    max-width: 1350px;
     margin: 0 auto;
 }
 
@@ -71,6 +71,14 @@ header {
   padding: 10px 0 0 0;
   width:300px;  
   text-align: center;
+  transition: all 0.2s;
+
+}
+
+.main-heading:hover {
+  cursor: pointer;
+  color: rgb(80, 158, 204);
+
 }
 
 .fa-angle-double-left {
@@ -118,7 +126,7 @@ header {
   font-size: 1.05rem;
   border: 2px solid white;
   border-radius: 10px 0px 0px 10px;
-  transition: all 0.4s;
+  transition: all 0.2s;
 
 }
 
@@ -145,7 +153,7 @@ color: rgb(134, 178, 204);
   width: 70px;
   vertical-align: middle;
   background-color: rgb(134, 178, 204);
-  transition: all 0.4s;
+  transition: all 0.2s;
 }
 
 .submit-button:hover,.prev-artist-button:hover,
@@ -173,7 +181,7 @@ color: rgb(134, 178, 204);
   width: 7rem;
   height: 2.5rem;
   background-color: rgb(134, 178, 204);
-  transition: all 0.4s;
+  transition: all 0.2s;
 }
 
 
@@ -252,6 +260,8 @@ color: rgb(134, 178, 204);
 }
 
 .artist-item {
+  transition: all 0.2s;
+
   background-color: rgb(41, 38, 38);
   margin: 0.3rem 0;
 }
@@ -303,6 +313,7 @@ li {
   flex-wrap: wrap;
   padding: 0rem 0rem 0rem 0rem;
   padding-inline-start: unset;
+  
 
 }
 
@@ -314,6 +325,8 @@ li {
 
   /* background-color: rgb(41, 38, 38); */
   padding:1rem;
+  transition: all 0.2s;
+
 }
 
 .albums-item:hover {

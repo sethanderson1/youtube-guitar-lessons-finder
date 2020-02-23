@@ -56,9 +56,15 @@ const baseURL = `https://musicbrainz.org/ws/2/`
 const limit = 100
 
 // const apiKey = 'AIzaSyCsxk-3l3HMjN4zZFQoOHpMj65lyEA8NW0'; //mine
+// const apiKey = "AIzaSyD6-lRx5UycdxnQjqe3XkHosizKWZE9jrc" //mine 
+const apiKey = "AIzaSyCswVioUHuC_WDjzsevANxMYcOIJJOqI1s"; // mine
+
 // const apiKey = "AIzaSyB3hw6YJqtiQRs1X5pNsmqWisgoifViVKE";
-const apiKey = "AIzaSyDXpwzqSs41Kp9IZj49efV3CSrVxUDAwS0";
+// const apiKey = "AIzaSyDXpwzqSs41Kp9IZj49efV3CSrVxUDAwS0";
 // const apiKey = "AIzaSyBkK8PEuhSfyz05gnUWhwOuE5cqWV5Oa3A";
+// const apiKey = "AIzaSyCkW6a36vDIcdoHBAmjyKTo2r6gki-MYfY";
+// const apiKey = "AIzaSyCAYorWuqzvRAPmNRs8C95Smp7hhdATzc8"
+
 const searchURL = "https://www.googleapis.com/youtube/v3/search";
 
 // const artistMBID = `b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d`
@@ -244,10 +250,6 @@ function makeOffsetAlbums(pageNum) {
   return (pageNum - 1) * STORE.albumsResultsPerPage
 }
 
-// function makeOffsetVideos(pageNum) {
-//   return (pageNum - 1) * STORE.videosResultsPerPage
-// }
-
 function getNextPageArtists() {
   console.log('STORE.artistQueryResponse(): ', STORE.artistQueryResponse)
   const itemCount = !STORE.artistQueryResponse ? 0 : STORE.artistQueryResponse.count
@@ -304,19 +306,13 @@ function formatQueryParams(params) {
 
 
 function displayArtistList() {
-
-
   $(".artists-page").empty();
   $('.artists-page').removeClass('hidden')
-
-
   $('.artists-page').append(`
   <section class="artists-heading-container">
   <h2 class="artist-results-title">Artist</h2>
   </section>`
   )
-
-  // console.log(STORE.artistQueryResponse.artists.length);
   const artists = STORE.artistQueryResponse.artists;
   console.log('displayArtistList() artists.length', artists.length)
   $('.artists-page').append(`
@@ -327,7 +323,6 @@ function displayArtistList() {
                     </div>
                 </div>`)
   for (let i = 0; i < artists.length; i++) {
-    // console.log(artists[i].name);
     $(".artists-list").append(
       `<li class="artist-item">
       <p class="artist-name hover-link pointer item"
@@ -956,6 +951,7 @@ function getYouTubeVideos(trackTitle) {
       if (response.ok) {
         return response.json();
       }
+      // console.log(response.json())
       throw new Error(response.statusText);
     })
     .then(responseJson => {
