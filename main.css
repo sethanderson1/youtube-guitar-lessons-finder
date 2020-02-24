@@ -1,26 +1,17 @@
-
-/* put magnifying glass icon for search button */
-/* make heading not overlap back button  */
-/* padding on left right for tracks page   */
-/* search button should be on right even when in mobile  */
-/* fix prev next buttons location and style  */
-/* center albums on album page */
-/* figure out a color for links  */
-/* links change color upon hover  */
-/* have album pic container exist at a certain size
-since there will be a delay when album art loads */
-/* maybe have a home button on the top left for mobile? */
-/* when do next albums page it starts at bottom of page but it should go back to top. */
-/* fix clicking on current page number goes to next */
-
-/* in albums page, figure out how to get the div img to 
-stick to the bottom of the container */
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   /* font-family: 'Michroma', sans-serif; */
+}
+
+:root {
+  --main-bg-color:#343330;
+  --main-color:#A3A261;
+  --link-color: #7A9CC6;
+  --link-color-hover: rgb(80, 158, 204);
+  --link-bg-color:rgb(34, 31, 16);
+  --link-bg-color-hover:rgb(88, 82, 70);;
 }
 
 .container{
@@ -44,47 +35,34 @@ a:hover {
 body {
   /* font-family: 'Michroma', sans-serif; */
   font-family: 'Roboto', sans-serif;
-
   /* background-color: #151515; */
-  background-color: #1f1b14;
-  color: rgb(163, 149, 117);
-  padding: 0;
-  /* margin: 0; */
-  /* font-family: "Fira Sans", sans-serif; */
-  /* font-family: 'Roboto', sans-serif;} */
+  background-color: var(--main-bg-color);
+  color: var(--main-color);
 }
 
-
-
 header {
-  /* font-size: 0.8rem */
-  /* padding: 10px 0 0 0; */
-/* text-align: center; */
   font-family: 'Michroma', sans-serif;
-
 }
 
 .main-heading {
   font-size: 1.4rem;
-  color: rgb(134, 178, 204);
-  /* text-align-last: center; */
-  margin: 0 auto 40px; /* remove margin for large screens */
+  color: var(--link-color);
+  margin: 0 auto 40px; 
   padding: 10px 0 0 0;
-  width:300px;  
+  width: 20rem;
   text-align: center;
   transition: all 0.2s;
-
 }
 
 .main-heading:hover {
   cursor: pointer;
-  color: rgb(80, 158, 204);
-
+  color: var(--link-color-hover);
 }
 
 .fa-angle-double-left {
-  color: rgb(134, 178, 204);
-  }
+  color: var(--link-color);
+  transition: all 0.2s;
+}
 
 .back-button {
   position: absolute;
@@ -95,8 +73,8 @@ header {
 }
 
 .fa-angle-double-left:hover {
-  color: rgb(80, 158, 204);
-  border: 2px solid rgba(80, 159, 204, 0);
+  color: var(--link-color-hover);
+  /* border: 2px solid  var(--link-color-hover); */
 }
 
 .back-text {
@@ -110,7 +88,6 @@ header {
 
 .search-container {
   font-family: 'Roboto', sans-serif;
-
   display:flex;
   max-width: 500px;
   margin:0 auto;
@@ -135,12 +112,12 @@ header {
   outline:0;
   /* background-color: rgb(209, 223, 231); */
   background-color:rgb(209, 204, 192);
-  border: 2px solid rgb(134, 178, 204);
+  border: 2px solid var(--link-color);
   /* border: 2px solid rgb(209, 204, 192);  */
 }
 
 .fa-angle-double-left {
-color: rgb(134, 178, 204);
+color: var(--link-color);
 }
 
 .submit-button {
@@ -149,25 +126,25 @@ color: rgb(134, 178, 204);
   flex-basis: 70px;
   line-height: 34px;
   font-size: 1.5rem;
-  border: 2px solid rgb(134, 178, 204);
+  border: 2px solid var(--link-color);
   border-radius: 0px 10px 10px 0px;
   width: 70px;
   vertical-align: middle;
-  background-color: rgb(134, 178, 204);
+  background-color: var(--link-color);
   transition: all 0.2s;
 }
 
 .submit-button:hover,.prev-artist-button:hover,
 .next-artist-button:hover {
   cursor: pointer;
-  background-color: rgb(80, 158, 204);
-  border: 2px solid rgb(80, 158, 204);
+  background-color: var(--link-color-hover);
+  border: 2px solid var(--link-color-hover);
 }
 
 .submit-button:focus,.prev-artist-button:focus,
 .next-artist-button:focus,.prev-albums-button,
  .next-albums-button  {
-  border: 2px solid rgb(80, 158, 204);
+  border: 2px solid var(--link-color-hover);
   /* background-color: rgb(80, 158, 204); */
   outline:0;
 }
@@ -181,12 +158,12 @@ color: rgb(134, 178, 204);
 .prev-albums-button, .next-albums-button,
 .prev-videos-button,.next-videos-button {
   
-  border: 2px solid rgb(134, 178, 204);
+  border: 2px solid var(--link-color);
   border-radius: 5px;
   width: 7rem;
   font-size: 1.3rem;
   height: 2.5rem;
-  background-color: rgb(134, 178, 204);
+  background-color: var(--link-color);
   transition: all 0.2s;
   /* font-family: 'Roboto', sans-serif; */
 }
@@ -226,14 +203,14 @@ color: rgb(134, 178, 204);
 .prev-albums-button:hover,.next-albums-button:hover,
 .prev-videos-button:hover,.next-videos-button:hover {
   cursor: pointer;
-  background-color: rgb(80, 158, 204);
-  border: 2px solid rgb(80, 158, 204);
+  background-color: var(--link-color-hover);
+  border: 2px solid var(--link-color-hover);
 }
 
 .prev-artist-button:focus,.next-artist-button:focus,
 .prev-albums-button:focus,.next-albums-button:focus,
 .prev-videos-button:focus,.next-videos-button:focus {
-  border: 2px solid rgb(80, 158, 204);
+  border: 2px solid var(--link-color-hover);
   outline:0;
 } 
 
@@ -269,24 +246,25 @@ color: rgb(134, 178, 204);
 .artist-item {
   transition: all 0.2s;
 
-  background-color: rgb(41, 38, 38);
+  background-color: var(--link-bg-color);
   margin: 0.3rem 0;
+  padding: 0.6rem;
 }
 
 
 
 .artist-item:hover,.albums-item:hover {
-  background-color: rgb(83, 77, 77);
+  background-color: var(--link-bg-color-hover);
 }
 
 .artist-item:focus, .albums-item:focus {
-  background-color: rgb(83, 77, 77);
+  background-color: var(--link-bg-color-hover);
 }
 
 .artist-name {
-  padding: 0.3rem 0.3rem;
-  font-size:1.4rem;
-  color:rgb(134, 178, 204);
+  /* padding: 0.3rem 0.3rem; */
+  font-size:1.3rem;
+  color:var(--link-color);
 }
 
 li {
@@ -328,9 +306,6 @@ li {
   /* display:block; */
   /* display: inline; */
   flex:0 0 100%;
-  /* border:1px solid gray; */
-
-  /* background-color: rgb(41, 38, 38); */
   padding:1rem;
   transition: all 0.2s;
 
@@ -373,7 +348,7 @@ li {
   /* max-width: 250px; */
   margin: 0rem 0rem 0rem 0rem;
   font-size: 1.2rem;
-  color: rgb(134, 178, 204);
+  color: var(--link-color);
 
 }
 
@@ -381,7 +356,7 @@ li {
   margin: 0rem 0rem 0rem 0rem;
   font-size: 1rem;
   font-style: italic;
-  color: rgb(134, 178, 204);
+  color: var(--link-color);
 
 }
 
@@ -412,14 +387,14 @@ li {
 .tracks-item{
   list-style: none;
   font-size: 1.2rem;
-  color: rgb(134, 178, 204);
+  color: var(--link-color);
   padding: 0.6rem;
   margin: 0.25rem 0;
-  background-color: #333;
+  background-color:var(--link-bg-color);
 }
 
 .tracks-item:hover, .tracks-item:focus {
-  background-color: #666;
+  background-color: var(--link-bg-color-hover);
   cursor: pointer;
 }
 
@@ -445,13 +420,13 @@ padding:0;
 }
 
 .video-title {
-  color: rgb(134, 178, 204);
+  color: var(--link-color);
   font-size: 1.25rem;
   transition: all 0.2s;
 }
 
 .video-title:hover {
-  color: rgb(80, 158, 204);
+  color: var(--link-color-hover);
 
 }
 
