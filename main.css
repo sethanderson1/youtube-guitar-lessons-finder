@@ -7,10 +7,10 @@
 
 :root {
   --main-bg-color:#343330;
-  --main-color:#A3A261;
+  --main-color:rgb(161, 161, 112);
   --link-color: #7A9CC6;
   --link-color-hover: rgb(80, 158, 204);
-  --link-bg-color:rgb(34, 31, 16);
+  --link-bg-color:rgb(46, 45, 41);
   --link-bg-color-hover:rgb(88, 82, 70);;
 }
 
