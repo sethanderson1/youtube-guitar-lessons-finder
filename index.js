@@ -1,7 +1,3 @@
-// handle 403 error
-// handle if no results
-
-
 let history = ['landing-page'];
 let current = 0;
 const baseURL = `https://musicbrainz.org/ws/2/`;
@@ -15,6 +11,7 @@ const apiKey = "AIzaSyCswVioUHuC_WDjzsevANxMYcOIJJOqI1s"; // mine
 // const apiKey = "AIzaSyCkW6a36vDIcdoHBAmjyKTo2r6gki-MYfY";
 // const apiKey = "AIzaSyCAYorWuqzvRAPmNRs8C95Smp7hhdATzc8"
 const searchURL = "https://www.googleapis.com/youtube/v3/search";
+
 const STORE = {
   artistQuery: ``,
   artistQueryResponse: "",
@@ -30,9 +27,6 @@ const STORE = {
   sortedReleaseGroupDates: null,
   releaseGroupResponseReleaseGroupFiltered: null,
   releaseGroupCount: null,
-
-  // releaseID: null,
-
 
   artistResultsPerPage: 10,
   artistCurrentPageNumber: 1,
@@ -60,18 +54,14 @@ const STORE = {
 function incrementHistory() {
   $('body').on('click', '.item', function (event) {
     current++;
-    console.log(`current`, current)
-    console.log('this',this)
     if (history.length >= 1) {
       history.push($(this).closest('section').attr('id'));
     } 
-    console.log(`history`, history);
     if (current == 0) {
       $('.js-back-button-container').hide()
     } else {
       $('.js-back-button-container').show()
     };
-    console.log(`current is still......`, current)
   });
 };
 
@@ -79,11 +69,7 @@ function backButton() {
   $('.js-back-button-container').on('click', function (event) {
     const prev = current - 1;
     resetVideoResultsData();
-    console.log('back button clicked');
-    console.log(`current`, current);
     const prevPage = history[prev];
-    console.log('prevPage ', prevPage);
-    // hide current page
     $('body').find($('.results-page').not('hidden').addClass('hidden'));
     $('body').find($('#' + prevPage)).removeClass('hidden');
     history.pop();
@@ -106,8 +92,6 @@ function resetAll() {
   $('.videos-page').addClass('hidden');
   current = 0;
   history = ['landing-page'];
-  // $('.tracks-list').empty();
-  // $('.videos-list').empty();
   $('.list').addClass('hidden');
 
   STORE.artistQuery = ``;
@@ -123,8 +107,6 @@ function resetAll() {
   STORE.releaseDate = [];
   STORE.sortedReleaseGroupDates = null;
   STORE.releaseGroupResponseReleaseGroupFiltered = null;
-  // STORE.releaseID= null;
-
 
   STORE.artistResultsPerPage = 10;
   STORE.artistCurrentPageNumber = 1;
@@ -149,8 +131,6 @@ function resetAll() {
   STORE.videosCount = null;
 
   STORE.nextPageToken = [null];
-
-
 };
 
 function resetReleaseGroupsData() {
@@ -164,9 +144,6 @@ function resetReleaseGroupsData() {
   STORE.albumsCurrentPageNumber = 1;
   STORE.albumsNextPageNumber = null;
   STORE.albumsPrevPageNumber = null;
-
-  // reset nav buttons too
-
 };
 
 function resetVideoResultsData() {
@@ -177,8 +154,6 @@ function resetVideoResultsData() {
 
   STORE.videosCount = null;
   $(".videos-page").empty();
-
-
 };
 
 function makeOffsetArtists(pageNum) {
@@ -190,10 +165,8 @@ function makeOffsetAlbums(pageNum) {
 };
 
 function getNextPageArtists() {
-  console.log('STORE.artistQueryResponse(): ', STORE.artistQueryResponse);
   const itemCount = !STORE.artistQueryResponse ? 0 : STORE.artistQueryResponse.count;
   const pageCount = Math.ceil(itemCount / STORE.artistResultsPerPage);
-  console.log('pageCount ', pageCount);
   if (STORE.artistCurrentPageNumber < pageCount) {
     return STORE.artistCurrentPageNumber + 1;
   };
@@ -201,11 +174,8 @@ function getNextPageArtists() {
 };
 
 function getNextPageAlbums() {
-  console.log('getNextPageAlbums() triggered');
   const itemCount = STORE.releaseGroupResponseReleaseGroupFiltered.length;
-  console.log(`STORE.releaseGroupResponseReleaseGroupFiltered.length`, STORE.releaseGroupResponseReleaseGroupFiltered.length);
   const pageCount = Math.ceil(itemCount / STORE.albumsResultsPerPage);
-  console.log('pageCount', pageCount);
   if (STORE.albumsCurrentPageNumber < pageCount) {
     return STORE.albumsCurrentPageNumber + 1;
   }
@@ -213,12 +183,8 @@ function getNextPageAlbums() {
 };
 
 function getNextPageVideos() {
-  console.log('getNextPageVideos() triggered');
   const itemCount = STORE.videosCount;
-  console.log(' getNextPageVideos() itemCount', itemCount, STORE.videosCount);
-  console.log(' videosCurrentPageNumber()', STORE.videosCurrentPageNumber);
   const pageCount = Math.ceil(itemCount / STORE.videosResultsPerPage);
-  console.log('pageCount', pageCount);
   if (STORE.videosCurrentPageNumber < pageCount) {
     return STORE.videosCurrentPageNumber + 1;
   }
@@ -229,7 +195,6 @@ function formatQueryParams(params) {
   const queryItems = Object.keys(params).map(
     key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
   );
-  console.log("queryItems ", queryItems);
   return queryItems.join("&");
 };
 
@@ -245,7 +210,6 @@ function displayArtistList() {
    </section>`
   );
   const artists = STORE.artistQueryResponse.artists;
-  console.log('displayArtistList() artists.length', artists.length);
   $('.artists-page').append(`
                 <div class="artists">
                     <ul class="artists-list list"></ul>
@@ -262,7 +226,7 @@ function displayArtistList() {
     );
   };
   $(".artists-list-nav").empty();
-
+  // create nav buttons
   if (STORE.artistCurrentPageNumber == 1) {
     const btn = `<button class="prev-artist-button hover-link"><i class="fa fa-angle-left"></i> prev</button>`;
     const $btn = $(btn);
@@ -275,7 +239,6 @@ function displayArtistList() {
     $btn.click(ev => {
       ev.preventDefault();
       STORE.artistCurrentPageNumber = STORE.artistPrevPageNumber;
-      // console.log('PREV PAGE',STORE.artistCurrentPageNumber);
       getArtistListFromQuery();
     });
     $(".artists-list-nav").append($btn);
@@ -296,7 +259,6 @@ function displayArtistList() {
     $next.click(ev => {
       ev.preventDefault();
       STORE.artistCurrentPageNumber = STORE.artistNextPageNumber;
-      console.log('NEXT PAGE');
       getArtistListFromQuery();
     })
     $(".artists-list-nav").append(pageNum).append($next);
@@ -304,8 +266,8 @@ function displayArtistList() {
   $("#results").removeClass("hidden");
 };
 
+// displays list of Release Groups (ie albums)
 function displayReleaseGroupsList() {
-  console.log(`displayReleaseGroupsList() triggered`);
   $(".albums-page").empty();
   $(".albums-page").removeClass('hidden');
   $('.albums-page').append(`
@@ -315,9 +277,7 @@ function displayReleaseGroupsList() {
   );
   const artistMBID = STORE.artistMBID;
   const albums = STORE.releaseGroupResponseReleaseGroupFiltered;
-  console.log(`albums`, albums);
   const offset = makeOffsetAlbums(STORE.albumsCurrentPageNumber);
-  console.log(`offset`, offset);
   $('.albums-page').append(`
   <div class="albums">
       <ul class="albums-list list"></ul>
@@ -330,11 +290,6 @@ function displayReleaseGroupsList() {
   let thumbnail;
   for (let i = offset; i < offsetPlus; i++) {
     offsetPlus = Math.min(offset + STORE.albumsResultsPerPage, albums.length);
-    // console.log('offset + STORE.albumsResultsPerPage', offset + STORE.albumsResultsPerPage);
-    // console.log('albums.length-1', albums.length);
-    // console.log('offsetPlus', offsetPlus);
-    // console.log(i + ' ' + albums[i].title);
-    // console.log('i', i);
     $(".albums-list").append(
       `<li class="albums-item album-name item" data-id=${albums[i].id}>
       <div class="album-info-wrapper " data-id=${albums[i].id}>
@@ -355,18 +310,14 @@ function displayReleaseGroupsList() {
   };
   $(".albums-list-nav").empty();
   const nextPage = getNextPageAlbums();
-  console.log('next page', nextPage);
   STORE.albumsNextPageNumber = null;
   if (nextPage) {
     STORE.albumsNextPageNumber = nextPage;
   };
-  console.log('STORE.albumsPrevPageNumber', STORE.albumsPrevPageNumber);
   STORE.albumsPrevPageNumber = null;
   if (STORE.albumsCurrentPageNumber > 1) {
     STORE.albumsPrevPageNumber = STORE.albumsCurrentPageNumber - 1;
-    console.log('STORE.albumsPrevPageNumber', STORE.albumsPrevPageNumber);
   };
-  console.log('STORE.albumsPrevPageNumber', STORE.albumsPrevPageNumber);
   if (STORE.albumsCurrentPageNumber == 1) {
     const btn = `<button class="prev-albums-button hover-link"><i class="fa fa-angle-left"></i> prev</button>`;
     const $btn = $(btn);
@@ -378,7 +329,6 @@ function displayReleaseGroupsList() {
     $btn.click(ev => {
       ev.preventDefault();
       STORE.albumsCurrentPageNumber = STORE.albumsPrevPageNumber;
-      console.log('PREV PAGE', STORE.albumsCurrentPageNumber);
       displayReleaseGroupsList();
     })
     $(".albums-list-nav").append($btn);
@@ -396,10 +346,7 @@ function displayReleaseGroupsList() {
                     </a>`;
     const $next = $(nextBtn);
     $next.click(ev => {
-      // ev.preventDefault();
       STORE.albumsCurrentPageNumber = STORE.albumsNextPageNumber;
-      console.log('STORE.albumsCurrentPageNumber', STORE.albumsCurrentPageNumber);
-      console.log('albums NEXT PAGE');
       displayReleaseGroupsList()
     })
     $(".albums-list-nav").append(pageNum).append($next);
@@ -429,7 +376,6 @@ function displayTracksList() {
     </div>`
   );
   for (let i = 0; i < tracks[0].tracks.length; i++) {
-    console.log(i + ' ' + tracks[0].tracks[i].title);
     $(".tracks-list").append(
       `<li class="tracks-item item">
           <p><span class="track-name pointer">${tracks[0].tracks[i].title}</span></p>
@@ -441,8 +387,6 @@ function displayTracksList() {
 function displayVideoResults(responseJson) {
   $(".videos-page").empty();
   $('.videos-page').removeClass('hidden')
-  console.log('from displayVideoResults() ', responseJson);
-  console.log('from displayVideoResults() ', responseJson.items.length);
   $('.videos-page').append(`
   <div class="videos">
     <ul class="videos-list list grid-container"></ul>
@@ -453,7 +397,6 @@ function displayVideoResults(responseJson) {
 
   for (let i = 0; i < responseJson.items.length; i++) {
     // localStorage.setItem(`https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`, `https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}`)
-    console.log('responseJson.items[i].id.videoId', responseJson.items[i].id.videoId)
     $(".videos-list").append(
       `<li class="grid-item">
       <div class="video-title-summary-box">
@@ -471,7 +414,6 @@ function displayVideoResults(responseJson) {
   $(".videos-list-nav").empty();
 
   const nextPage = getNextPageVideos()
-  console.log('next page displayVideoResults', nextPage);
   STORE.videosNextPageNumber = null;
   if (nextPage) {
     STORE.videosNextPageNumber = nextPage;
@@ -510,7 +452,6 @@ function displayVideoResults(responseJson) {
                     </a>`;
     const $next = $(nextBtn)
     $next.click(ev => {
-      //   ev.preventDefault()
       STORE.videosCurrentPageNumber = STORE.videosNextPageNumber;
       getYouTubeVideos(STORE.trackTitle);
     })
@@ -525,7 +466,6 @@ function getArtistListFromQuery() {
   const artist = STORE.artistQuery;
   let offset = makeOffsetArtists(STORE.artistCurrentPageNumber);
   let url = `https://musicbrainz.org/ws/2/artist/?query=artist:${artist}&fmt=json&offset=${offset}&limit=${STORE.artistResultsPerPage}`;
-  console.log("query artist url ", url);
   fetch(url)
     .then(response => {
       if (response.ok) {
@@ -540,14 +480,10 @@ function getArtistListFromQuery() {
       console.log('next page:', nextPage);
       STORE.artistNextPageNumber = null;
       if (nextPage) {
-        // offset = makeOffsetArtists(nextPage)
-        // url = `https://musicbrainz.org/ws/2/artist/?query=artist:${artist}&fmt=json&offset=${offset}`;    
         STORE.artistNextPageNumber = nextPage;
       };
       STORE.artistPrevPageNumber = null
       if (STORE.artistCurrentPageNumber > 1) {
-        // offset = makeOffsetArtists(STORE.artistCurrentPageNumber-1)
-        // url = `https://musicbrainz.org/ws/2/artist/?query=artist:${artist}&fmt=json&offset=${offset}`;    
         STORE.artistPrevPageNumber = STORE.artistCurrentPageNumber - 1;
       };
       displayArtistList();
@@ -558,29 +494,20 @@ function getArtistListFromQuery() {
 }
 
 function getReleaseGroupsFromArtistID(artistMBID) {
-  // let releaseGroupCount = 715;
-  // const releaseGroupCount = STORE.releaseGroupResponse[`release-group-count`]
-  // console.log(releaseGroupCount)
-  // console.log('releaseGroupCount', STORE.releasegro)
-  // let pagesCount = Math.ceil(releaseGroupCount / limit)
-  let pagesCount = 1; // just a placeholder value
+  let pagesCount = 1; 
   const fetches = [];
   for (let i = 0; i < pagesCount; i++) {
     const offset = limit * i;
     const url = `https://musicbrainz.org/ws/2/release-group?artist=${artistMBID}&offset=${offset}&limit=${limit}&fmt=json`;
-    // const savedURL = `https://musicbrainz.org/ws/2/release-group?artist=${artistMBID}&offset=${offset}&limit=${limit}&fmt=json`;
-    console.log(`getReleaseGroupsFromArtistID() url`, url);
     fetches.push(
       fetch(url)
         .then(response => {
           if (response.ok) {
-            // console.log('response.json() ', response);
             return response.json();
           }
           throw new Error(response.statusText);
         })
         .then(responseJson => {
-          console.log('responseJson', responseJson);
           STORE.releaseGroupResponse.push(responseJson);
           STORE.releaseGroupResponseReleaseGroup.push(responseJson[`release-groups`]);
         })
@@ -593,24 +520,20 @@ function getReleaseGroupsFromArtistID(artistMBID) {
   }
   Promise.all(fetches).then(() => {
     STORE.releaseGroupResponseReleaseGroup = STORE.releaseGroupResponseReleaseGroup.flat();
-    // console.log(STORE.releaseGroupResponseReleaseGroup)
     filteredReleaseGroupResponse(STORE.releaseGroupResponseReleaseGroup);
     sortReleaseGroupsByDate(STORE.releaseGroupResponseReleaseGroupFiltered);
-    // ** getAlbumArt() needs to finish before can display
-    getAlbumArt(STORE.releaseGroupResponseReleaseGroupFiltered);
+    // getAlbumArt(STORE.releaseGroupResponseReleaseGroupFiltered);
     displayReleaseGroupsList();
   })
-  // include Live in secondary types and maybe soundtracks and 
-  // other things. 
   let test = [];
   let filterConditions = [];
 
+  // filtering out unwanted album types (eg audiobooks, compilations)
   function filteredReleaseGroupResponse(array) {
     const filteredArr = [];
     for (let i = 0; i < array.length; i++) {
       if (array[i].id === `8d5f4b07-7e2e-4ffa-ac90-e4772c4d8525`) {
         test.push(array[i]);
-        console.log('test', array[i]);
       }
       filterConditions = [
         array[i][`first-release-date`].length > 0,
@@ -631,27 +554,6 @@ function getReleaseGroupsFromArtistID(artistMBID) {
     STORE.releaseGroupResponseReleaseGroupFiltered = filteredArr;
   };
 
-  function getAlbumArt(albums) {
-    console.log(`getAlbumArt(releasegroupID) invoked`)
-    let url = ``;
-    for (let i = 0; i < albums.length; i++) {
-      url = `http://coverartarchive.org/release-group/${albums[i].id}/front-250`;
-      // console.log('albums[i]', albums[i].title, albums[i].id);
-      fetch(url).then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
-        .then(responseJson => {
-          // console.log('getAlbumArt() responseJson', responseJson);
-        })
-        .catch(err => {
-          $("#js-error-message").text(`Something went wrong: ${err.message}`);
-        })
-    }
-  };
-
   function sortReleaseGroupsByDate(toBeSorted) {
     toBeSorted.sort(function (a, b) {
       a = new Date(a[`first-release-date`]);
@@ -663,7 +565,6 @@ function getReleaseGroupsFromArtistID(artistMBID) {
 
 function getReleasesFromReleaseGroupID(releaseGroupID) {
   const url = `https://musicbrainz.org/ws/2/release-group/${releaseGroupID}?inc=releases&fmt=json`
-  console.log("query releases url ", url);
   fetch(url)
     .then(response => {
       if (response.ok) {
@@ -673,11 +574,7 @@ function getReleasesFromReleaseGroupID(releaseGroupID) {
       throw new Error(response.statusText);
     })
     .then(responseJson => {
-      console.log(responseJson);
       STORE.releasesQueryResponse = responseJson;
-      // *** where to put the below
-      // STORE.releaseID = STORE.releasesQueryResponse.releases[0].id
-      console.log('should be releaseID ', STORE.releasesQueryResponse.releases[0].id);
       getTracksFromReleaseID(STORE.releasesQueryResponse.releases[0].id);
     })
     .catch(err => {
@@ -687,17 +584,14 @@ function getReleasesFromReleaseGroupID(releaseGroupID) {
 
 function getTracksFromReleaseID(releaseID) {
   const url = `${baseURL}release/${releaseID}?inc=recordings&fmt=json`
-  console.log("query tracks url ", url);
   fetch(url)
     .then(response => {
       if (response.ok) {
-        console.log(response);
         return response.json();
       }
       throw new Error(response.statusText);
     })
     .then(responseJson => {
-      console.log(responseJson);
       STORE.tracksQueryResponse = responseJson;
       displayTracksList();
     })
@@ -705,8 +599,6 @@ function getTracksFromReleaseID(releaseID) {
       $("#js-error-message").text(`Something went wrong: ${err.message}`);
     });
 };
-
-const cache = {};
 
 function getYouTubeVideos(trackTitle) {
   const params = {
@@ -717,39 +609,23 @@ function getYouTubeVideos(trackTitle) {
     type: "video",
     order: 'relevance',
   };
-  // ** below condition might not be correct. check it.. 
   if (STORE.nextPageToken[STORE.videosCurrentPageNumber - 1] !== null) {
     params.pageToken = STORE.nextPageToken[STORE.videosCurrentPageNumber - 1]
   }
-  console.log('videos current page number:', STORE.videosCurrentPageNumber)
-  console.log('STORE.nextPageToken:', STORE.nextPageToken)
   const queryString = formatQueryParams(params);
   const url = searchURL + "?" + queryString;
-  console.log('getYouTubeVideos()', url);
-  //   debugger
-
-  // if(cache[url]){
-  //     console.log('cached youtube videos response', cache[url])
-  //       displayVideoResults(cache[url])
-  //       return
-  // }  
 
   fetch(url)
     .then(response => {
       if (response.ok) {
         return response.json();
       }
-      // console.log(response.json())
       throw new Error(response.statusText);
     })
     .then(responseJson => {
-      // cache[url]=responseJson  
-      console.log('responseJson.nextPageToken', responseJson.nextPageToken)
       STORE.nextPageToken.push(responseJson.nextPageToken);
       STORE.videosCount = responseJson.pageInfo.totalResults;
-      console.log('youtube videos response', responseJson)
       displayVideoResults(responseJson)
-      console.log('STORE.videosCount', STORE.videosCount)
     })
     .catch(err => {
       $("#js-error-message").text(`Something went wrong: ${err.message}`);
@@ -763,18 +639,12 @@ function handleSearchForm() {
     event.preventDefault();
     resetAll()
     current = 1;
-    // $('.js-back-button-container').removeClass('hidden')
     $('.js-back-button-container').show();
-    // $('.artists-page').removeClass('hidden')
-    // $('.artists-list-nav').removeClass('hidden')
     const artist = $('#js-search-term').val();
-    console.log('artist query:', artist)
     STORE.artistQuery = encodeURIComponent(artist)
     getArtistListFromQuery();
     $('#js-search-term').val('')
-    // console.log(encodeURIComponent(artist))
     $('.landing-page').hide();
-    // console.log(2434)
   });
 };
 
@@ -782,25 +652,17 @@ function handleSelectArtist() {
   $('.artists-page').on('click', '.artist-name', function (event) {
     event.preventDefault();
     $('.artists-page').addClass('hidden')
-    console.log('event target: clicked', $(event.target).text())
-    // console.log('event target: clicked', $(event.target).attr('id'))
     STORE.artistID = $(event.target).attr('data-id');
     getReleaseGroupsFromArtistID($(event.target).attr('data-id'));
-    console.log('selected Artist ', $(event.target).text())
     STORE.selectedArtist = $(event.target).text();
     resetReleaseGroupsData()
   })
-  // gets release groups (basically release group is an album)
 };
 
 function handleSelectReleaseGroup() {
   $('.albums-page').on('click', '.album-name', function (event) {
     event.preventDefault();
     $('.albums-page').addClass('hidden')
-    console.log('event target: clicked', $(event.target).text())
-    console.log('album name',
-      $(event.target).closest($('.albums-item')).find($('.album-title')).text()
-    )
     STORE.selectedAlbumTitle = $(event.target).closest($('.albums-item')).find($('.album-title')).text()
     STORE.selectedAlbumID = $(event.target).attr('data-id');
     getReleasesFromReleaseGroupID($(event.target).attr('data-id'));
@@ -813,7 +675,6 @@ function handleSelectTrack() {
     resetVideoResultsData();
     $('.tracks-page').addClass('hidden');
     STORE.trackTitle = $(event.target).text();
-    console.log('event target track: clicked', $(event.target).closest($('.tracks-item')).find($('.track-name')).text());
     getYouTubeVideos($(event.target).closest($('.tracks-item')).find($('.track-name')).text());
 
   })
@@ -822,12 +683,9 @@ function handleSelectTrack() {
 function handleClickHome() {
   $('.main-heading').on('click', function (event) {
     event.preventDefault();
-    console.log('handleClickHome() triggered');
     $('.landing-page').show();
     $('.back-button').hide();
     resetAll();
-    console.log(`current`, current);
-
   })
 };
 
