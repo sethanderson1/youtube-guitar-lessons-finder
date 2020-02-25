@@ -1,4 +1,5 @@
-youtube-guitar-lessons-finder
+# YouTube Guitar Lesson Finder
 
 https://sethanderson1.github.io/youtube-guitar-lessons-finder/
+
 
