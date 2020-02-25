@@ -24,8 +24,15 @@ Video results page:
 
 ![2020-02-24 23_58_46-Youtube-guitar-lesson-finder](https://user-images.githubusercontent.com/58465744/75222566-6c32ba80-579c-11ea-87f4-f1567a77dbb2.png)
 
+## Summary
 
+This app enables the user to browse through an artist's discography and find youtube guitar lessons associated with a particular song.
 
+## Technologies Used
 
+HTML 
+CSS
+Javascript
+JQuery
 
 
