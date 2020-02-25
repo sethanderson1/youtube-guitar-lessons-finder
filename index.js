@@ -474,10 +474,10 @@ function getArtistListFromQuery() {
       throw new Error(response.statusText);
     })
     .then(responseJson => {
-      console.log('getArtistListFromQuery() response:', responseJson);
+      // console.log('getArtistListFromQuery() response:', responseJson);
       STORE.artistQueryResponse = responseJson;
       const nextPage = getNextPageArtists();
-      console.log('next page:', nextPage);
+      // console.log('next page:', nextPage);
       STORE.artistNextPageNumber = null;
       if (nextPage) {
         STORE.artistNextPageNumber = nextPage;
@@ -568,7 +568,7 @@ function getReleasesFromReleaseGroupID(releaseGroupID) {
   fetch(url)
     .then(response => {
       if (response.ok) {
-        console.log(response);
+        // console.log(response);
         return response.json();
       }
       throw new Error(response.statusText);
