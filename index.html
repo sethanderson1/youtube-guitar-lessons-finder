@@ -27,11 +27,9 @@
         <header>
             <!-- change to js-back-button-container and change in jquery  -->
             <h1 class="main-heading">YouTube Guitar Lesson Finder</h1>
-
             <div role="navigation" aria-label="Go back to the main page"
                 class="js-back-button-container back-button pointer" hidden>
                 <!-- <input type="button" value="BACK"> -->
-
                 <i class="fa fa-angle-double-left"></i>
 
 
@@ -42,9 +40,9 @@
         <form id="js-form" role="form">
             <div class="search-container">
                 <input aria-label="Search for an artist" type="text" name="search-term" class="search-field"
-                    id="js-search-term" placeholder="Enter an artist name" autofocus />
+                    id="js-search-term" placeholder="Enter an artist (eg Jimi Hendrix, Nirvana, Metallica)" autofocus />
                 <button aria-label="Search" type="submit" class="submit-button">
-                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <i class="fa fa-search " aria-hidden="true"></i>
                 </button>
             </div>
         </form>
@@ -53,6 +51,23 @@
         <a name="top"></a>
 
         <section id="results">
+            <section class="landing-page" id="landing-page">
+                <p>
+                    Browse through an artist's discography to find video guitar lessons for a particular song
+                </p>
+                <p>
+                    First, search for an artist and select the correct artist from a list of matches
+                </p>
+                <p>
+                    Then, select an album from that artist
+                </p>
+                <p>
+                    Next, select a song from that album
+                </p>
+                <p>
+                    Finally, select a video to learn how to play that song!
+                </p>
+            </section>
 
             <section class="artists-page results-page" id="artists-page">
 

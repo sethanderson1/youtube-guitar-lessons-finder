@@ -8,10 +8,10 @@
 :root {
   --main-bg-color:#343330;
   --main-color:rgb(161, 161, 112);
-  --link-color: #7A9CC6;
+  --link-color: rgb(160, 187, 221);
   --link-color-hover: rgb(80, 158, 204);
   --link-bg-color:rgb(46, 45, 41);
-  --link-bg-color-hover:rgb(88, 82, 70);;
+  --link-bg-color-hover:rgb(70, 65, 56);;
 }
 
 .container{
@@ -118,6 +118,19 @@ header {
 
 .fa-angle-double-left {
 color: var(--link-color);
+}
+
+.landing-page {
+  padding: 0 10%;
+}
+
+.landing-page > p {
+  margin-bottom: 1rem;
+}
+
+.landing-page p:nth-child(1) {
+  font-size: 1.6rem;
+  margin-bottom:2rem;
 }
 
 .submit-button {
@@ -244,7 +257,6 @@ color: var(--link-color);
 }
 
 .artist-item {
-  transition: all 0.2s;
 
   background-color: var(--link-bg-color);
   margin: 0.3rem 0;
@@ -255,6 +267,8 @@ color: var(--link-color);
 
 .artist-item:hover,.albums-item:hover {
   background-color: var(--link-bg-color-hover);
+  transition: all 0.2s;
+
 }
 
 .artist-item:focus, .albums-item:focus {
@@ -391,6 +405,7 @@ li {
   padding: 0.6rem;
   margin: 0.25rem 0;
   background-color:var(--link-bg-color);
+  transition: all 0.2s;
 }
 
 .tracks-item:hover, .tracks-item:focus {

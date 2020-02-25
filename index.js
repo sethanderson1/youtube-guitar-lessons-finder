@@ -2,7 +2,7 @@
 // handle if no results
 
 
-let history = [];
+let history = ['landing-page'];
 let current = 0;
 const baseURL = `https://musicbrainz.org/ws/2/`;
 const limit = 100;
@@ -59,15 +59,19 @@ const STORE = {
 
 function incrementHistory() {
   $('body').on('click', '.item', function (event) {
-    current++;;
+    current++;
     console.log(`current`, current)
-    history.push($(this).closest('section').attr('id'));
+    console.log('this',this)
+    if (history.length >= 1) {
+      history.push($(this).closest('section').attr('id'));
+    } 
     console.log(`history`, history);
-    if (history.length == 0) {
+    if (current == 0) {
       $('.js-back-button-container').hide()
     } else {
       $('.js-back-button-container').show()
     };
+    console.log(`current is still......`, current)
   });
 };
 
@@ -84,8 +88,9 @@ function backButton() {
     $('body').find($('#' + prevPage)).removeClass('hidden');
     history.pop();
     current == 0 ? 0 : current -= 1;
-    if (history.length == 0) {
+    if (current==0) {
       $('.js-back-button-container').hide()
+      $('.landing-page').show();
     } else {
       $('.js-back-button-container').show()
     }
@@ -100,7 +105,7 @@ function resetAll() {
   $('.tracks-page').addClass('hidden');
   $('.videos-page').addClass('hidden');
   current = 0;
-  history = [];
+  history = ['landing-page'];
   // $('.tracks-list').empty();
   // $('.videos-list').empty();
   $('.list').addClass('hidden');
@@ -325,11 +330,11 @@ function displayReleaseGroupsList() {
   let thumbnail;
   for (let i = offset; i < offsetPlus; i++) {
     offsetPlus = Math.min(offset + STORE.albumsResultsPerPage, albums.length);
-    console.log('offset + STORE.albumsResultsPerPage', offset + STORE.albumsResultsPerPage);
-    console.log('albums.length-1', albums.length);
-    console.log('offsetPlus', offsetPlus);
+    // console.log('offset + STORE.albumsResultsPerPage', offset + STORE.albumsResultsPerPage);
+    // console.log('albums.length-1', albums.length);
+    // console.log('offsetPlus', offsetPlus);
     // console.log(i + ' ' + albums[i].title);
-    console.log('i', i);
+    // console.log('i', i);
     $(".albums-list").append(
       `<li class="albums-item album-name item" data-id=${albums[i].id}>
       <div class="album-info-wrapper " data-id=${albums[i].id}>
@@ -341,7 +346,8 @@ function displayReleaseGroupsList() {
                   <img 
                   aria-label="${albums[i].title} cover art"
                   class="album-name pointer  album-image" data-id=${albums[i].id}
-                      src="http://coverartarchive.org/release-group/${albums[i].id}/front-${thumbnailSize}"></img>
+                      src="http://coverartarchive.org/release-group/${albums[i].id}/front-${thumbnailSize}" 
+                      alt="album cover art">
               </div>
         </div>
        </li>`
@@ -409,7 +415,9 @@ function displayTracksList() {
   <section class="tracks-heading-container">
     <p class="tracks-results-title">${STORE.selectedAlbumTitle}</p>
     <div class="album-cover-container"> 
-      <img id="album-cover-tracks-page" src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}">
+      <img id="album-cover-tracks-page" 
+      src="http://coverartarchive.org/release-group/${STORE.selectedAlbumID}/front-${thumbnailSize}"
+      alt="album cover art">
     </div>
   </section>`
   );
@@ -455,7 +463,7 @@ function displayVideoResults(responseJson) {
       </div>
       <div class="embedded-video-container">
           <iframe class="embedded-video" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}"
-              allowfullscreen></iframe>
+              allowfullscreen aria-label="${responseJson.items[i].snippet.title} video"></iframe>
       </div>
       </li>`
     );
@@ -628,7 +636,7 @@ function getReleaseGroupsFromArtistID(artistMBID) {
     let url = ``;
     for (let i = 0; i < albums.length; i++) {
       url = `http://coverartarchive.org/release-group/${albums[i].id}/front-250`;
-      console.log('albums[i]', albums[i].title, albums[i].id);
+      // console.log('albums[i]', albums[i].title, albums[i].id);
       fetch(url).then(response => {
         if (response.ok) {
           return response.json();
@@ -636,7 +644,7 @@ function getReleaseGroupsFromArtistID(artistMBID) {
         throw new Error(response.statusText);
       })
         .then(responseJson => {
-          console.log('getAlbumArt() responseJson', responseJson);
+          // console.log('getAlbumArt() responseJson', responseJson);
         })
         .catch(err => {
           $("#js-error-message").text(`Something went wrong: ${err.message}`);
@@ -754,8 +762,9 @@ function handleSearchForm() {
   $("form").submit(event => {
     event.preventDefault();
     resetAll()
+    current = 1;
     // $('.js-back-button-container').removeClass('hidden')
-    $('.js-back-button-container').show()
+    $('.js-back-button-container').show();
     // $('.artists-page').removeClass('hidden')
     // $('.artists-list-nav').removeClass('hidden')
     const artist = $('#js-search-term').val();
@@ -764,6 +773,8 @@ function handleSearchForm() {
     getArtistListFromQuery();
     $('#js-search-term').val('')
     // console.log(encodeURIComponent(artist))
+    $('.landing-page').hide();
+    // console.log(2434)
   });
 };
 
@@ -810,16 +821,19 @@ function handleSelectTrack() {
 
 function handleClickHome() {
   $('.main-heading').on('click', function (event) {
-    event.preventDefault()
-    console.log('handleClickHome() triggered')
+    event.preventDefault();
+    console.log('handleClickHome() triggered');
+    $('.landing-page').show();
+    $('.back-button').hide();
+    resetAll();
+    console.log(`current`, current);
 
-    resetAll()
   })
 };
 
 function watchForm() {
-  backButton()
-  incrementHistory()
+  backButton();
+  incrementHistory();
   handleSearchForm();
   handleSelectArtist();
   handleSelectReleaseGroup();
