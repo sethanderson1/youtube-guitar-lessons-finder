@@ -2,21 +2,10 @@ let history = ['landing-page'];
 let current = 0;
 const baseURL = `https://musicbrainz.org/ws/2/`;
 const limit = 100;
-// const apiKey = 'AIzaSyCsxk-3l3HMjN4zZFQoOHpMj65lyEA8NW0'; //mine
-// const apiKey = "AIzaSyD6-lRx5UycdxnQjqe3XkHosizKWZE9jrc" //mine 
-// const apiKey = "AIzaSyCswVioUHuC_WDjzsevANxMYcOIJJOqI1s"; // mine
-// const apiKey = "AIzaSyDibi-A8EOWKihUKlOqKBUkFwzn2R0JX7Y"; //mine
-// const apiKey = "AIzaSyAqvNZo4jX8s6yx1dk2vg2A0qth18e_dM4";//mine
-// const apiKey = "AIzaSyC6tLxecis1oaiYfYzahUA9DxHqfqLTBlU";//mine
 
 
 const apiKey = "AIzaSyAB4eE1viGTfTyAbd4J4LVlFKkFPi7PYQM";//mine
 
-// const apiKey = "AIzaSyB3hw6YJqtiQRs1X5pNsmqWisgoifViVKE";
-// const apiKey = "AIzaSyDXpwzqSs41Kp9IZj49efV3CSrVxUDAwS0";
-// const apiKey = "AIzaSyBkK8PEuhSfyz05gnUWhwOuE5cqWV5Oa3A";
-// const apiKey = "AIzaSyCkW6a36vDIcdoHBAmjyKTo2r6gki-MYfY";
-// const apiKey = "AIzaSyCAYorWuqzvRAPmNRs8C95Smp7hhdATzc8"
 const searchURL = "https://www.googleapis.com/youtube/v3/search";
 
 const STORE = {
