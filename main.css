@@ -285,6 +285,9 @@ li {
 .albums-item {
   flex: 0 0 100%;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   transition: all 0.2s;
 }
 
