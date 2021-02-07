@@ -4,7 +4,7 @@ const baseURL = `https://musicbrainz.org/ws/2/`;
 const limit = 100;
 
 
-const apiKey = "AIzaSyAB4eE1viGTfTyAbd4J4LVlFKkFPi7PYQM";//mine
+const apiKey = "AIzaSyDGKOzZyFJ8UlnWrOkERNKchAixOyT9ZZQ";//mine
 
 const searchURL = "https://www.googleapis.com/youtube/v3/search";
 
